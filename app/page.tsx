@@ -56,7 +56,7 @@ export default function Home() {
           <ChevronUp className="w-4 h-4" /> {/* Simple discreet icon, or Lock */}
         </button>
 
-        <div className="absolute -bottom-14 left-0 right-0 flex flex-col items-center z-10">
+        <div className="absolute -bottom-20 left-0 right-0 flex flex-col items-center z-10">
           <div className="w-28 h-28 rounded-full p-[3px] bg-gradient-to-b from-[#DBC278] to-[#b39220] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.8)]">
             {/* Real Avatar */}
             <div className="w-full h-full rounded-full bg-zinc-900 flex items-center justify-center overflow-hidden relative">
@@ -82,7 +82,7 @@ export default function Home() {
       </div>
 
       {/* TABS (Agenda / Assinatura) */}
-      <div className="mt-16 px-6 flex gap-4 relative z-0">
+      <div className="mt-24 px-6 flex gap-4 relative z-0">
         <button
           onClick={() => setActiveTab("agenda")}
           className={cn(
