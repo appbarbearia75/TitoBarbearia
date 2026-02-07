@@ -38,7 +38,7 @@ export default function Home() {
       <div className="relative w-full h-[260px] overflow-hidden">
         {/* Background Image */}
         <NextImage
-          src="/background_v2.png"
+          src="/background_santthiago.png"
           alt="Barbershop Background"
           fill
           className="object-cover opacity-60"
@@ -60,10 +60,10 @@ export default function Home() {
           <div className="w-28 h-28 rounded-full p-[3px] bg-gradient-to-b from-[#DBC278] to-[#b39220] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.8)]">
             {/* Real Avatar */}
             <div className="w-full h-full rounded-full bg-zinc-900 flex items-center justify-center overflow-hidden relative">
-              <NextImage src="/real_avatar.png" alt="Barber Profile" width={112} height={112} className="w-full h-full object-cover" />
+              <NextImage src="/avatar_santthiago.png" alt="Barber Profile" width={112} height={112} className="w-full h-full object-cover" />
             </div>
           </div>
-          <h1 className="mt-3 text-2xl font-extrabold tracking-tight text-white drop-shadow-md">Tito Barbearia</h1>
+          <h1 className="mt-3 text-2xl font-extrabold tracking-tight text-white drop-shadow-md">Santthiago Barbearia</h1>
           <div className="glass flex items-center gap-1.5 text-xs font-medium text-zinc-300 mt-1 px-3 py-1 rounded-full">
             <MapPin className="w-3 h-3 text-[#DBC278]" />
             <span>Rua das Flores, 123 - Centro</span>
