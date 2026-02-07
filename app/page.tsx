@@ -41,7 +41,7 @@ export default function Home() {
           src="/background_santthiago.png"
           alt="Barbershop Background"
           fill
-          className="object-cover opacity-60"
+          className="object-cover opacity-85"
           priority
         />
 
