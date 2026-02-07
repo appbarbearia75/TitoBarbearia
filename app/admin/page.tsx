@@ -102,25 +102,22 @@ export default function AdminPage() {
                         <div className="absolute top-0 right-0 w-32 h-32 bg-[#DBC278]/5 blur-[60px] rounded-full pointing-events-none"></div>
                     </div>
 
-                    {/* Stats Compact Grid */}
-                    <div className="grid grid-cols-2 gap-3">
-                        <button
-                            onClick={() => router.push('/admin/analytics')}
-                            className="p-4 bg-[#1c1c1c] rounded-2xl border border-zinc-800 flex flex-col items-center justify-center gap-2 hover:bg-zinc-800 transition-colors"
-                        >
-                            <BarChart3 className="w-6 h-6 text-[#DBC278]" />
-                            <span className="text-xs font-bold text-zinc-300">Analytics</span>
-                        </button>
-
-                        <button className="p-4 bg-[#1c1c1c] rounded-2xl border border-zinc-800 flex flex-col items-center justify-center gap-2 hover:bg-zinc-800 transition-colors opacity-50 cursor-not-allowed">
-                            <Users className="w-6 h-6 text-zinc-500" />
-                            <span className="text-xs font-bold text-zinc-500">Clientes</span>
-                        </button>
-                        <button className="p-4 bg-[#1c1c1c] rounded-2xl border border-zinc-800 flex flex-col items-center justify-center gap-2 hover:bg-zinc-800 transition-colors opacity-50 cursor-not-allowed">
-                            <Settings className="w-6 h-6 text-zinc-500" />
-                            <span className="text-xs font-bold text-zinc-500">Ajustes</span>
-                        </button>
-                    </div>
+                    {/* Analytics Button */}
+                    <button
+                        onClick={() => router.push('/admin/analytics')}
+                        className="w-full p-5 bg-gradient-to-r from-[#1c1c1c] to-[#252525] rounded-2xl border border-zinc-800 hover:border-[#DBC278]/30 transition-all flex items-center justify-between group"
+                    >
+                        <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 rounded-xl bg-[#DBC278]/10 flex items-center justify-center border border-[#DBC278]/20 group-hover:bg-[#DBC278] group-hover:text-black transition-colors">
+                                <BarChart3 className="w-6 h-6 text-[#DBC278] group-hover:text-black" />
+                            </div>
+                            <div className="text-left">
+                                <h3 className="font-bold text-white text-base">Analytics</h3>
+                                <p className="text-zinc-500 text-xs">Relatórios e Estatísticas</p>
+                            </div>
+                        </div>
+                        <ChevronRight className="w-5 h-5 text-zinc-600 group-hover:text-[#DBC278] transition-colors" />
+                    </button>
                 </section>
 
                 {/* Vertical Timeline Schedule */}
