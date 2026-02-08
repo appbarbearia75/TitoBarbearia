@@ -1,75 +1,43 @@
 export const SERVICES = [
     {
+        id: "corte-simples",
+        title: "Corte",
+        price: 45.00,
+        duration: "30 min",
+        description: "Corte social ou clássico.",
+        icon: "scissors"
+    },
+    {
+        id: "corte-degrade",
+        title: "Corte Degradê",
+        price: 50.00,
+        duration: "45 min",
+        description: "Acabamento detalhado com navalha.",
+        icon: "scissors"
+    },
+    {
+        id: "acabamento",
+        title: "Acabamento",
+        price: 20.00,
+        duration: "15 min",
+        description: "Pézinho e contornos.",
+        icon: "zap"
+    },
+    {
         id: "barba",
         title: "Barba",
-        price: 45.00,
-        duration: "20 min",
+        price: 35.00,
+        duration: "30 min",
         description: "Modelagem e toalha quente.",
         icon: "user"
     },
     {
-        id: "bigode",
-        title: "Bigode",
-        price: 10.00,
-        duration: "10 min",
-        description: "Aparar e modelar bigode.",
-        icon: "smile"
-    },
-    {
-        id: "camuflagem",
-        title: "Camuflagem",
-        price: 40.00,
-        duration: "30 min",
-        description: "Procedimento para diminuir os fios brancos de forma mais natural: cabelo e barba.",
-        icon: "sparkles"
-    },
-    {
-        id: "corte",
-        title: "Corte",
-        price: 45.00,
-        duration: "30 min",
-        description: "Corte personalizado.",
-        icon: "scissors"
-    },
-    {
-        id: "freestyle",
-        title: "Freestyle",
-        price: 10.00,
-        duration: "10 min",
-        description: "Desenhos e detalhes personalizados.",
-        icon: "zap"
-    },
-    {
-        id: "hidratacao",
-        title: "Hidratação",
-        price: 25.00,
-        duration: "20 min",
-        description: "Hidratação com produto profissional deixando seu cabelo com mais brilho e macio, incluso escova.",
-        icon: "droplet"
-    },
-    {
-        id: "luzes",
-        title: "Luzes",
-        price: 200.00,
-        duration: "120 min",
-        description: "Mechas e luzes profissionais.",
-        icon: "sun"
-    },
-    {
-        id: "penteado",
-        title: "Penteado",
-        price: 25.00,
-        duration: "10 min",
-        description: "Lavagem - Laque - Pomada.",
-        icon: "crown"
-    },
-    {
-        id: "selagem",
-        title: "Selagem",
-        price: 120.00,
+        id: "corte-barba",
+        title: "Corte + Barba",
+        price: 80.00,
         duration: "60 min",
-        description: "Selagem capilar para controle de frizz.",
-        icon: "sparkles"
+        description: "Combo completo.",
+        icon: "crown"
     },
     {
         id: "sobrancelha",
@@ -78,6 +46,46 @@ export const SERVICES = [
         duration: "10 min",
         description: "Design e limpeza.",
         icon: "eye"
+    },
+    {
+        id: "botox",
+        title: "Botox",
+        price: 80.00,
+        duration: "40 min",
+        description: "Alinhamento e redução de volume.",
+        icon: "sparkles"
+    },
+    {
+        id: "platinado",
+        title: "Platinado",
+        price: 150.00,
+        duration: "120 min",
+        description: "Descoloração global com matização.",
+        icon: "sun"
+    },
+    {
+        id: "depilacao",
+        title: "Depilação de nariz ou orelha",
+        price: 10.00,
+        duration: "10 min",
+        description: "Cera quente.",
+        icon: "feather"
+    },
+    {
+        id: "limpeza",
+        title: "Limpeza de pele",
+        price: 60.00,
+        duration: "40 min",
+        description: "Remoção de cravos e impurezas.",
+        icon: "droplet"
+    },
+    {
+        id: "mascara",
+        title: "Máscara negra",
+        price: 25.00,
+        duration: "15 min",
+        description: "Remoção de cravos superficiais.",
+        icon: "smile"
     }
 ]
 

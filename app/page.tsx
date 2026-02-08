@@ -38,10 +38,10 @@ export default function Home() {
       <div className="relative w-full h-[260px] overflow-hidden">
         {/* Background Image */}
         <NextImage
-          src="/background_santthiago.png"
+          src="/background_v2.png"
           alt="Barbershop Background"
           fill
-          className="object-cover opacity-85"
+          className="object-cover opacity-60"
           priority
         />
 
@@ -56,25 +56,16 @@ export default function Home() {
           <ChevronUp className="w-4 h-4" /> {/* Simple discreet icon, or Lock */}
         </button>
 
-        <div className="absolute -bottom-20 left-0 right-0 flex flex-col items-center z-10">
+        <div className="absolute -bottom-14 left-0 right-0 flex flex-col items-center z-10">
           <div className="w-28 h-28 rounded-full p-[3px] bg-gradient-to-b from-[#DBC278] to-[#b39220] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.8)]">
             {/* Real Avatar */}
             <div className="w-full h-full rounded-full bg-zinc-900 flex items-center justify-center overflow-hidden relative">
-              <NextImage src="/avatar_santthiago.png" alt="Barber Profile" width={112} height={112} className="w-full h-full object-cover" />
+              <NextImage src="/real_avatar.png" alt="Barber Profile" width={112} height={112} className="w-full h-full object-cover" />
             </div>
           </div>
-          <h1 className="mt-3 text-2xl font-extrabold tracking-tight text-white drop-shadow-md">Santthiago Barbearia</h1>
+          <h1 className="mt-3 text-2xl font-extrabold tracking-tight text-white drop-shadow-md">Tito Barbearia</h1>
 
-          {/* 5-Star Rating */}
-          <div className="flex items-center justify-center gap-1 mt-2 mb-1">
-            <Star className="w-5 h-5 fill-[#DBC278] stroke-[#DBC278]" strokeWidth={1} />
-            <Star className="w-5 h-5 fill-[#DBC278] stroke-[#DBC278]" strokeWidth={1} />
-            <Star className="w-5 h-5 fill-[#DBC278] stroke-[#DBC278]" strokeWidth={1} />
-            <Star className="w-5 h-5 fill-[#DBC278] stroke-[#DBC278]" strokeWidth={1} />
-            <Star className="w-5 h-5 fill-[#DBC278] stroke-[#DBC278]" strokeWidth={1} />
-          </div>
-
-          <div className="glass flex items-center gap-1.5 text-xs font-medium text-zinc-300 mt-2 px-3 py-1 rounded-full">
+          <div className="glass flex items-center gap-1.5 text-xs font-medium text-zinc-300 mt-1 px-3 py-1 rounded-full">
             <MapPin className="w-3 h-3 text-[#DBC278]" />
             <span>Rua das Flores, 123 - Centro</span>
           </div>
@@ -82,7 +73,7 @@ export default function Home() {
       </div>
 
       {/* TABS (Agenda / Assinatura) */}
-      <div className="mt-24 px-6 flex gap-4 relative z-0">
+      <div className="mt-16 px-6 flex gap-4 relative z-0">
         <button
           onClick={() => setActiveTab("agenda")}
           className={cn(

@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Santthiago Barbearia - Seu corte, no seu tempo.",
+  title: "Tito Barbearia - Seu corte, no seu tempo.",
   description: "Agendamento rápido e fácil para serviços de barbearia.",
 };
 
