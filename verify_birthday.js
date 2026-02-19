@@ -1,0 +1,1 @@
+﻿const { createClient } = require('@supabase/supabase-js'); const supabase = createClient('https://vuaayfuhqbrkvwutcidw.supabase.co', 'sb_publishable_-qWiT8Yk4ZjS9h0LcfbUjA_HXs5sdWk'); async function check() { const { data } = await supabase.from('bookings').select('customer_birthday').not('customer_birthday', 'is', null).limit(1); console.log('Birthdays:', data); } check();
