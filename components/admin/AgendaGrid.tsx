@@ -139,7 +139,7 @@ export function AgendaGrid() {
 
             // Fetch VIPs concurrently if there are phones
             const uniquePhones = Array.from(new Set(bookingsData.map(b => b.customer_phone).filter(Boolean)));
-            const vipStatusMap = {};
+            const vipStatusMap: Record<string, boolean> = {};
 
             if (uniquePhones.length > 0) {
                 const { data: vipClients } = await supabase
