@@ -157,7 +157,22 @@ export function AgendaGrid() {
             }
 
             const mappedBookings: GridBooking[] = (bookingsData || []).map(b => {
-                const duration = parseInt((b.services as any)?.duration?.replace(/\D/g, '') || '15') || 15;
+                let duration = 15;
+                const dStr = (b.services as any)?.duration?.toString() || '15';
+                if (dStr.includes(':')) {
+                    const [dh, dm] = dStr.split(':').map(Number);
+                    duration = (dh * 60) + (dm || 0);
+                } else if (dStr.toLowerCase().includes('h')) {
+                    const hMatch = dStr.match(/(\d+)\s*h/i);
+                    const mMatch = dStr.match(/(\d+)\s*m/i);
+                    const dh = hMatch ? parseInt(hMatch[1]) : 0;
+                    const dm = mMatch ? parseInt(mMatch[1]) : 0;
+                    duration = (dh * 60) + dm;
+                    if (duration === 0) duration = parseInt(dStr.replace(/\D/g, '')) || 15;
+                } else {
+                    duration = parseInt(dStr.replace(/\D/g, '')) || 15;
+                }
+
                 const startTime = b.time.slice(0, 5);
 
                 // Calcula hand_time

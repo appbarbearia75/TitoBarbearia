@@ -27,8 +27,85 @@ export default function TenantAdminLayout({
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
     useEffect(() => {
-        checkOwner()
+        let intervalId: NodeJS.Timeout;
+        const init = async () => {
+            const bId = await checkOwner()
+            if (bId) {
+                runAutoComplete(bId)
+                intervalId = setInterval(() => {
+                    runAutoComplete(bId)
+                }, 60000) // check every minute
+            }
+        }
+        init()
+        return () => {
+            if (intervalId) clearInterval(intervalId)
+        }
     }, [slug])
+
+    const runAutoComplete = async (bId: string) => {
+        try {
+            const { data: globalShop } = await supabase.from('barbershops').select('auto_complete_bookings, pdv_enabled').eq('id', bId).single()
+            if (globalShop && globalShop.auto_complete_bookings !== false && globalShop.pdv_enabled !== false) {
+                const now = new Date()
+                const todayStr = format(now, 'yyyy-MM-dd')
+
+                const { data: pending } = await supabase
+                    .from('bookings')
+                    .select(`*, services(title, duration, price), barbers(commission_type, commission_value)`)
+                    .eq('barbershop_id', bId)
+                    .eq('status', 'confirmed')
+                    .lte('date', todayStr)
+
+                if (pending && pending.length > 0) {
+                    for (const b of pending) {
+                        let shouldComplete = false;
+                        const [year, month, day] = b.date.split('-').map(Number);
+                        const [hour, min] = b.time.split(':').map(Number);
+                        const bDate = new Date(year, month - 1, day, hour, min);
+
+                        let durationMins = 30;
+                        const durationStr = (b.services as any)?.duration?.toString() || '30';
+                        if (durationStr.includes(':')) {
+                            const [dh, dm] = durationStr.split(':').map(Number);
+                            durationMins = (dh * 60) + (dm || 0);
+                        } else if (durationStr.toLowerCase().includes('h')) {
+                            const hMatch = durationStr.match(/(\d+)\s*h/i);
+                            const mMatch = durationStr.match(/(\d+)\s*m/i);
+                            const dh = hMatch ? parseInt(hMatch[1]) : 0;
+                            const dm = mMatch ? parseInt(mMatch[1]) : 0;
+                            durationMins = (dh * 60) + dm;
+                            if (durationMins === 0) durationMins = parseInt(durationStr.replace(/\D/g, '')) || 30;
+                        } else {
+                            durationMins = parseInt(durationStr.replace(/\D/g, '')) || 30;
+                        }
+                        bDate.setMinutes(bDate.getMinutes() + durationMins)
+
+                        if (now >= bDate) {
+                            shouldComplete = true
+                        }
+
+                        if (shouldComplete) {
+                            let commission_earned = 0
+                            if (b.barbers) {
+                                const cType = (b.barbers as any).commission_type || 'percentage'
+                                const cValue = parseFloat((b.barbers as any).commission_value) || 0
+                                const bPrice = parseFloat((b.services as any)?.price || '0')
+                                if (cType === 'percentage') {
+                                    commission_earned = bPrice * (cValue / 100)
+                                } else if (cType === 'fixed') {
+                                    commission_earned = cValue
+                                }
+                            }
+                            await supabase.from('bookings').update({ status: 'completed', commission_earned }).eq('id', b.id)
+                        }
+                    }
+                }
+            }
+        } catch (bgErr) {
+            console.error("Background auto-complete error:", bgErr)
+        }
+    }
 
     const checkOwner = async () => {
         try {
@@ -39,7 +116,7 @@ export default function TenantAdminLayout({
             if (authError || !user) {
                 console.log("Auth error or no user:", authError?.message || "No user found")
                 router.push("/login")
-                return
+                return null
             }
 
             console.log("User found:", user.id)
@@ -56,13 +133,13 @@ export default function TenantAdminLayout({
             if (error || !barbershop) {
                 console.log("Barbershop not found or error", error?.message || "Not found")
                 router.push("/")
-                return
+                return null
             }
 
             if (barbershop.id !== user.id) {
                 console.error("Access denied: Not the owner")
                 router.push("/")
-                return
+                return null
             }
 
             setBarbershopName(barbershop.name)
@@ -71,60 +148,11 @@ export default function TenantAdminLayout({
             // Unblock UI immediately so the user can navigate without waiting
             setLoading(false)
 
-            // Auto-complete any past bookings missed globally (run in background)
-            if (barbershop.pdv_enabled !== false) {
-                // Execute async without awaiting it here
-                (async () => {
-                    try {
-                        const { data: globalShop } = await supabase.from('barbershops').select('auto_complete_bookings').eq('id', barbershop.id).single()
-                        if (globalShop && globalShop.auto_complete_bookings !== false) {
-                            const now = new Date()
-                            const todayStr = format(now, 'yyyy-MM-dd')
-
-                            const { data: pending } = await supabase
-                                .from('bookings')
-                                .select(`*, services(title, duration, price), barbers(commission_type, commission_value)`)
-                                .eq('barbershop_id', barbershop.id)
-                                .eq('status', 'confirmed')
-                                .lte('date', todayStr)
-
-                            if (pending && pending.length > 0) {
-                                for (const b of pending) {
-                                    let shouldComplete = false;
-                                    const bDate = new Date(`${b.date}T${b.time}:00`)
-                                    const durationStr = (b.services as any)?.duration || '30'
-                                    const durationMins = parseInt(durationStr.replace(/\D/g, '')) || 30
-                                    bDate.setMinutes(bDate.getMinutes() + durationMins)
-
-                                    if (now >= bDate) {
-                                        shouldComplete = true
-                                    }
-
-                                    if (shouldComplete) {
-                                        let commission_earned = 0
-                                        if (b.barbers) {
-                                            const cType = (b.barbers as any).commission_type || 'percentage'
-                                            const cValue = parseFloat((b.barbers as any).commission_value) || 0
-                                            const bPrice = parseFloat((b.services as any)?.price || '0')
-                                            if (cType === 'percentage') {
-                                                commission_earned = bPrice * (cValue / 100)
-                                            } else if (cType === 'fixed') {
-                                                commission_earned = cValue
-                                            }
-                                        }
-                                        await supabase.from('bookings').update({ status: 'completed', commission_earned }).eq('id', b.id)
-                                    }
-                                }
-                            }
-                        }
-                    } catch (bgErr) {
-                        console.error("Background auto-complete error:", bgErr)
-                    }
-                })()
-            }
+            return barbershop.id
         } catch (err) {
             console.log("Unexpected error in checkOwner:", err instanceof Error ? err.message : err)
             router.push("/login")
+            return null
         }
     }
 
