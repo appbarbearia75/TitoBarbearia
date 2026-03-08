@@ -201,6 +201,64 @@ export default function SettingsPage() {
 
             if (error) throw error
 
+            if (formData.auto_complete_bookings) {
+                // Force an immediate completion run upon saving.
+                const now = new Date()
+                const todayStr = new Date(now.getTime() - (now.getTimezoneOffset() * 60000)).toISOString().split('T')[0]
+
+                const { data: pending } = await supabase
+                    .from('bookings')
+                    .select(`*, services(title, duration, price), barbers(commission_type, commission_value)`)
+                    .eq('barbershop_id', user.id)
+                    .eq('status', 'confirmed')
+                    .lte('date', todayStr)
+
+                if (pending && pending.length > 0) {
+                    for (const b of pending) {
+                        let shouldComplete = false;
+                        const [year, month, day] = b.date.split('-').map(Number);
+                        const [hour, min] = b.time.split(':').map(Number);
+                        const bDate = new Date(year, month - 1, day, hour, min);
+
+                        let durationMins = 30;
+                        const durationStr = (b.services as any)?.duration?.toString() || '30';
+                        if (durationStr.includes(':')) {
+                            const [dh, dm] = durationStr.split(':').map(Number);
+                            durationMins = (dh * 60) + (dm || 0);
+                        } else if (durationStr.toLowerCase().includes('h')) {
+                            const hMatch = durationStr.match(/(\d+)\s*h/i);
+                            const mMatch = durationStr.match(/(\d+)\s*m/i);
+                            const dh = hMatch ? parseInt(hMatch[1]) : 0;
+                            const dm = mMatch ? parseInt(mMatch[1]) : 0;
+                            durationMins = (dh * 60) + dm;
+                            if (durationMins === 0) durationMins = parseInt(durationStr.replace(/\D/g, '')) || 30;
+                        } else {
+                            durationMins = parseInt(durationStr.replace(/\D/g, '')) || 30;
+                        }
+                        bDate.setMinutes(bDate.getMinutes() + durationMins)
+
+                        if (now >= bDate) {
+                            shouldComplete = true
+                        }
+
+                        if (shouldComplete) {
+                            let commission_earned = 0
+                            if (b.barbers) {
+                                const cType = (b.barbers as any).commission_type || 'percentage'
+                                const cValue = parseFloat((b.barbers as any).commission_value) || 0
+                                const bPrice = parseFloat((b.services as any)?.price || '0')
+                                if (cType === 'percentage') {
+                                    commission_earned = bPrice * (cValue / 100)
+                                } else if (cType === 'fixed') {
+                                    commission_earned = cValue
+                                }
+                            }
+                            await supabase.from('bookings').update({ status: 'completed', commission_earned }).eq('id', b.id)
+                        }
+                    }
+                }
+            }
+
             setMsg({ type: "success", text: "Configurações salvas com sucesso!" })
         } catch (error) {
             console.error("Error saving settings:", error)
