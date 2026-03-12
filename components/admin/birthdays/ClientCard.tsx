@@ -13,7 +13,7 @@ export interface Client {
     id: number | string
     name: string
     age: number
-    avatar: string
+    avatar: string | null | undefined
     phone: string
     lastVisit: string
     lastService: string
@@ -43,7 +43,7 @@ export function ClientCard({ client }: { client: Client }) {
             <div className="flex items-start justify-between">
                 <div className="flex items-center gap-4">
                     <Avatar className="w-14 h-14 border border-border-color">
-                        <AvatarImage src={client.avatar} alt={client.name} />
+                        <AvatarImage src={client.avatar ?? undefined} alt={client.name} />
                         <AvatarFallback className="bg-hover-bg text-text-secondary">
                             {client.name.split(" ").map(n => n[0]).join("")}
                         </AvatarFallback>
