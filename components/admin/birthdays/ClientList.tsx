@@ -38,7 +38,11 @@ export function ClientList({ clients }: ClientListProps) {
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-4">
                                             <div className="w-11 h-11 rounded-full bg-hover-bg flex items-center justify-center text-xs font-bold text-text-secondary border border-border-color overflow-hidden">
-                                                <img src={client.avatar} alt={client.name} className="w-full h-full object-cover opacity-80" />
+                                                {client.avatar ? (
+                                                    <img src={client.avatar} alt={client.name} className="w-full h-full object-cover opacity-80" />
+                                                ) : (
+                                                    <User className="w-5 h-5" />
+                                                )}
                                             </div>
                                             <div className="flex flex-col gap-0.5">
                                                 <div className="font-bold text-text-primary text-base flex items-center gap-2">
