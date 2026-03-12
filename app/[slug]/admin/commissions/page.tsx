@@ -501,7 +501,7 @@ export default function CommissionsPage() {
                                 <CalendarIcon className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
                                 <SelectValue placeholder="Período" />
                             </SelectTrigger>
-                            <SelectContent className="bg-bg-card border-border-color text-text-primary text-sm">
+                            <SelectContent className="bg-[#1c1c1c] border-white/10 text-white text-sm">
                                 <SelectItem value="today">Hoje</SelectItem>
                                 <SelectItem value="thisWeek">Esta Semana</SelectItem>
                                 <SelectItem value="lastWeek">Semana Passada</SelectItem>
@@ -517,7 +517,7 @@ export default function CommissionsPage() {
                                 <User className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
                                 <SelectValue placeholder="Todos profissionais" />
                             </SelectTrigger>
-                            <SelectContent className="bg-bg-card border-border-color text-text-primary text-sm max-h-[300px]">
+                            <SelectContent className="bg-[#1c1c1c] border-white/10 text-white text-sm max-h-[300px]">
                                 <SelectItem value="all">Todos profissionais</SelectItem>
                                 {barbersList.map(b => (
                                     <SelectItem key={b.id} value={b.id}>{b.name}</SelectItem>
@@ -589,7 +589,7 @@ export default function CommissionsPage() {
                     </div>
                 </div>
             ) : !data ? (
-                <div className="text-center py-20 text-text-muted bg-bg-card-hover rounded-2xl border border-border-color">
+                <div className="text-center py-20 text-zinc-500 bg-[#1c1c1c]/50 rounded-2xl border border-white/5">
                     Não foi possível carregar os dados.
                 </div>
             ) : (
@@ -597,14 +597,14 @@ export default function CommissionsPage() {
                     {/* === COMPACT SUMMARY CARDS (Linear-style) === */}
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                         {/* 1st card - PRIMARY - destaque com glow */}
-                        <div className="relative bg-bg-card border border-yellow-500/40 rounded-xl p-3 overflow-hidden hover:border-yellow-500/70 hover:scale-[1.01] transition-all duration-200 shadow-sm col-span-1 flex flex-col justify-between">
+                        <div className="relative bg-zinc-900 border border-yellow-500/40 rounded-xl p-3 overflow-hidden hover:border-yellow-500/70 hover:scale-[1.01] transition-all duration-200 shadow-lg shadow-yellow-900/20 col-span-1 flex flex-col justify-between">
                             <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/8 to-transparent pointer-events-none" />
                             <div>
                                 <div className="flex items-center gap-1.5 h-4 mb-1">
                                     <AlertTriangle className="w-3.5 h-3.5 text-yellow-400 shrink-0" />
                                     <h2 className="text-[10px] font-bold text-yellow-400 uppercase tracking-wider leading-none truncate w-full">Comissões Pendentes</h2>
                                 </div>
-                                <p className="text-xl sm:text-2xl font-black text-text-primary tabular-nums tracking-tight">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(data.summary.totalCommissionsPending)}</p>
+                                <p className="text-xl sm:text-2xl font-black text-white tabular-nums tracking-tight">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(data.summary.totalCommissionsPending)}</p>
                             </div>
                             <div className="mt-1">
                                 {data.summary.totalCommissionsPending > 0
@@ -615,12 +615,12 @@ export default function CommissionsPage() {
                         </div>
 
                         {/* 2nd card */}
-                        <div className="bg-bg-card border border-border-color rounded-xl p-3 hover:border-green-500/20 hover:bg-bg-card-hover hover:scale-[1.01] transition-all duration-200 col-span-1 flex flex-col justify-between">
+                        <div className="bg-zinc-900 border border-white/5 rounded-xl p-3 hover:border-green-500/20 hover:bg-zinc-800/50 hover:scale-[1.01] transition-all duration-200 col-span-1 flex flex-col justify-between">
                             <div>
                                 <div className="flex items-center gap-1.5 h-4 mb-1">
-                                    <h2 className="text-[10px] font-bold text-green-500 uppercase tracking-wider leading-none truncate w-full">Total Gerado</h2>
+                                    <h2 className="text-[10px] font-bold text-green-400 uppercase tracking-wider leading-none truncate w-full">Total Gerado</h2>
                                 </div>
-                                <p className="text-xl sm:text-2xl font-black text-text-primary tabular-nums tracking-tight">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(data.summary.totalCommissionsGenerated)}</p>
+                                <p className="text-xl sm:text-2xl font-black text-white tabular-nums tracking-tight">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(data.summary.totalCommissionsGenerated)}</p>
                             </div>
                             <div className="mt-1">
                                 <p className="text-[10px] text-transparent select-none leading-none pointer-events-none truncate">.</p>
@@ -628,12 +628,12 @@ export default function CommissionsPage() {
                         </div>
 
                         {/* 3rd card */}
-                        <div className="bg-bg-card border border-border-color rounded-xl p-3 hover:border-blue-500/20 hover:bg-bg-card-hover hover:scale-[1.01] transition-all duration-200 col-span-1 flex flex-col justify-between">
+                        <div className="bg-zinc-900 border border-white/5 rounded-xl p-3 hover:border-blue-500/20 hover:bg-zinc-800/50 hover:scale-[1.01] transition-all duration-200 col-span-1 flex flex-col justify-between">
                             <div>
                                 <div className="flex items-center gap-1.5 h-4 mb-1">
-                                    <h2 className="text-[10px] font-bold text-blue-500 uppercase tracking-wider leading-none truncate w-full">Faturamento</h2>
+                                    <h2 className="text-[10px] font-bold text-blue-400 uppercase tracking-wider leading-none truncate w-full">Faturamento</h2>
                                 </div>
-                                <p className="text-xl sm:text-2xl font-black text-text-primary tabular-nums tracking-tight">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(data.summary.totalRevenue)}</p>
+                                <p className="text-xl sm:text-2xl font-black text-white tabular-nums tracking-tight">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(data.summary.totalRevenue)}</p>
                             </div>
                             <div className="mt-1">
                                 <p className="text-[10px] text-transparent select-none leading-none pointer-events-none truncate">.</p>
@@ -641,12 +641,12 @@ export default function CommissionsPage() {
                         </div>
 
                         {/* 4th card - Margem */}
-                        <div className="bg-bg-card border border-border-color rounded-xl p-3 hover:border-border-color hover:bg-bg-card-hover hover:scale-[1.01] transition-all duration-200 col-span-1 flex flex-col justify-between" title="Faturamento bruto menos comissões pagas">
+                        <div className="bg-zinc-900 border border-white/5 rounded-xl p-3 hover:border-white/20 hover:bg-zinc-800/50 hover:scale-[1.01] transition-all duration-200 col-span-1 flex flex-col justify-between" title="Faturamento bruto menos comissões pagas">
                             <div>
                                 <div className="flex items-center gap-1.5 h-4 mb-1">
-                                    <h2 className="text-[10px] font-bold text-text-secondary uppercase tracking-wider leading-none cursor-help w-max border-b border-dashed border-border-color pb-[1px] truncate">Margem</h2>
+                                    <h2 className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider leading-none cursor-help w-max border-b border-dashed border-zinc-700/70 pb-[1px] truncate">Margem</h2>
                                 </div>
-                                <p className="text-xl sm:text-2xl font-black text-text-primary tabular-nums tracking-tight">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(data.summary.estimatedMargin)}</p>
+                                <p className="text-xl sm:text-2xl font-black text-white tabular-nums tracking-tight">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(data.summary.estimatedMargin)}</p>
                             </div>
                             <div className="mt-1">
                                 <p className="text-[10px] text-transparent select-none leading-none pointer-events-none truncate">.</p>
@@ -659,13 +659,13 @@ export default function CommissionsPage() {
                         const pendingBarbers = data.barbers.filter((b: any) => b.totalCommission > 0);
                         const totalPending = pendingBarbers.reduce((acc: number, b: any) => acc + b.totalCommission, 0);
                         return (
-                            <div className="bg-bg-card border border-border-color rounded-xl overflow-hidden">
+                            <div className="bg-zinc-900 border border-white/8 rounded-xl overflow-hidden">
                                 {/* Header */}
-                                <div className="flex flex-col sm:flex-row sm:items-center justify-between px-4 py-3 border-b border-border-color gap-2.5">
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between px-4 py-3 border-b border-white/[0.06] gap-2.5">
                                     <div className="flex items-center gap-2">
                                         <div className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse shrink-0" />
-                                        <h3 className="text-xs font-bold text-text-primary uppercase tracking-widest">Pagamentos aguardando acerto</h3>
-                                        <span className="text-[10px] text-text-muted shrink-0">{pendingBarbers.length} {pendingBarbers.length > 1 ? 'profissionais' : 'profissional'}</span>
+                                        <h3 className="text-xs font-bold text-zinc-300 uppercase tracking-widest">Pagamentos aguardando acerto</h3>
+                                        <span className="text-[10px] text-zinc-600 shrink-0">{pendingBarbers.length} {pendingBarbers.length > 1 ? 'profissionais' : 'profissional'}</span>
                                     </div>
                                     <Button
                                         size="sm"
@@ -677,7 +677,7 @@ export default function CommissionsPage() {
                                     </Button>
                                 </div>
                                 {/* Barbers List */}
-                                <div className="divide-y divide-border-color">
+                                <div className="divide-y divide-white/[0.04]">
                                     {pendingBarbers.map((b: any) => {
                                         const oldestUnpaid = b.appointmentsList.find((a: any) => !a.isPaid);
                                         const daysPending = oldestUnpaid
@@ -685,13 +685,13 @@ export default function CommissionsPage() {
                                             : 0;
                                         const isHighAlert = daysPending >= 5 || b.totalCommission >= 500;
                                         return (
-                                            <div key={b.id} className="flex items-center justify-between px-4 py-3 hover:bg-hover-bg transition-colors gap-3">
+                                            <div key={b.id} className="flex items-center justify-between px-4 py-3 hover:bg-white/[0.03] transition-colors gap-3">
                                                 <div className="flex items-center gap-2.5 min-w-0">
-                                                    <div className="w-7 h-7 rounded-full bg-bg-input border border-border-color flex items-center justify-center shrink-0">
-                                                        {b.photoUrl ? <img src={b.photoUrl} alt={b.name} className="w-full h-full rounded-full object-cover" /> : <User className="w-3.5 h-3.5 text-text-muted" />}
+                                                    <div className="w-7 h-7 rounded-full bg-zinc-800 border border-white/10 flex items-center justify-center shrink-0">
+                                                        {b.photoUrl ? <img src={b.photoUrl} alt={b.name} className="w-full h-full rounded-full object-cover" /> : <User className="w-3.5 h-3.5 text-zinc-500" />}
                                                     </div>
                                                     <div className="min-w-0">
-                                                        <p className="text-sm font-semibold text-text-primary truncate">{b.name.split(' ')[0]}</p>
+                                                        <p className="text-sm font-semibold text-white truncate">{b.name.split(' ')[0]}</p>
                                                         {isHighAlert && daysPending >= 5 && <p className="text-[10px] text-red-400 font-semibold flex items-center gap-1"><AlertTriangle className="w-2.5 h-2.5 shrink-0" /> Há {daysPending} dias</p>}
                                                     </div>
                                                 </div>
@@ -707,7 +707,7 @@ export default function CommissionsPage() {
                                                     ) : (
                                                         <Button
                                                             size="sm"
-                                                            className={`h-7 font-bold transition-all rounded-lg shrink-0 hover:scale-105 active:scale-95 ${isHighAlert ? 'bg-red-500 hover:bg-red-400 text-white px-2.5' : 'bg-bg-input hover:bg-hover-bg text-text-primary border border-border-color px-2.5'}`}
+                                                            className={`h-7 font-bold transition-all rounded-lg shrink-0 hover:scale-105 active:scale-95 ${isHighAlert ? 'bg-red-500 hover:bg-red-400 text-white px-2.5' : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-white/10 px-2.5'}`}
                                                             disabled={isPaying && payingBarberId === b.id}
                                                             onClick={() => openPaymentModal(b.id, b.name, b.totalCommission)}
                                                         >
@@ -727,20 +727,20 @@ export default function CommissionsPage() {
                                     })}
                                 </div>
                                 {/* Footer total */}
-                                <div className="flex items-center justify-between px-4 py-2.5 bg-hover-bg border-t border-border-color">
-                                    <span className="text-[11px] text-text-muted uppercase tracking-wider font-semibold">Total pendente</span>
-                                    <span className="text-sm font-black text-accent-primary tabular-nums">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalPending)}</span>
+                                <div className="flex items-center justify-between px-4 py-2.5 bg-white/[0.02] border-t border-white/[0.04]">
+                                    <span className="text-[11px] text-zinc-600 uppercase tracking-wider font-semibold">Total pendente</span>
+                                    <span className="text-sm font-black text-yellow-300 tabular-nums">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalPending)}</span>
                                 </div>
                             </div>
                         )
                     })()}
 
                     <Tabs defaultValue="overview" className="mt-8">
-                        <TabsList className="bg-bg-card border border-border-color p-1 h-auto flex flex-row w-full sm:w-auto mb-6 rounded-lg overflow-hidden gap-1">
-                            <TabsTrigger value="overview" className="flex-1 sm:flex-none py-1.5 px-4 rounded-md font-bold transition-all text-text-secondary bg-bg-input border border-border-color hover:bg-bg-card-hover data-[state=active]:bg-primary-action data-[state=active]:text-white data-[state=active]:border-primary-action dark:data-[state=active]:bg-white/10 dark:data-[state=active]:text-white whitespace-nowrap">
+                        <TabsList className="bg-transparent border border-white/8 p-0.5 h-auto flex flex-row w-full sm:w-auto mb-6 rounded-lg overflow-hidden">
+                            <TabsTrigger value="overview" className="flex-1 sm:flex-none py-1.5 px-4 data-[state=active]:bg-white/10 data-[state=active]:text-white text-zinc-400 font-medium text-sm rounded-md whitespace-nowrap">
                                 Visão Geral
                             </TabsTrigger>
-                            <TabsTrigger value="history" className="flex-1 sm:flex-none py-1.5 px-4 rounded-md font-bold transition-all text-text-secondary bg-bg-input border border-border-color hover:bg-bg-card-hover data-[state=active]:bg-primary-action data-[state=active]:text-white data-[state=active]:border-primary-action dark:data-[state=active]:bg-white/10 dark:data-[state=active]:text-white whitespace-nowrap">
+                            <TabsTrigger value="history" className="flex-1 sm:flex-none py-1.5 px-4 data-[state=active]:bg-white/10 data-[state=active]:text-white text-zinc-400 font-medium text-sm rounded-md whitespace-nowrap">
                                 Histórico
                             </TabsTrigger>
                         </TabsList>
@@ -748,11 +748,11 @@ export default function CommissionsPage() {
                         <TabsContent value="overview" className="m-0 focus-visible:outline-none">
                             {/* ── Progresso de pagamento ── */}
                             {data.barbers.length > 0 && (
-                                <div className="bg-bg-card border border-border-color rounded-xl p-4 mb-3">
+                                <div className="bg-zinc-900 border border-white/[0.06] rounded-xl p-4 mb-3">
                                     <div className="flex items-center gap-3 mb-4">
-                                        <div className="h-px flex-1 bg-border-color" />
-                                        <p className="text-[10px] font-bold text-text-secondary uppercase tracking-widest shrink-0">Progresso de pagamento</p>
-                                        <div className="h-px flex-1 bg-border-color" />
+                                        <div className="h-px flex-1 bg-white/[0.05]" />
+                                        <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest shrink-0">Progresso de pagamento</p>
+                                        <div className="h-px flex-1 bg-white/[0.05]" />
                                     </div>
                                     <div className="space-y-3.5">
                                         {data.barbers.map((b: any) => {
@@ -763,13 +763,13 @@ export default function CommissionsPage() {
                                             return (
                                                 <div key={b.id}>
                                                     <div className="flex justify-between items-baseline mb-1.5">
-                                                        <span className="text-sm font-semibold text-text-primary">{b.name.split(' ')[0]}</span>
+                                                        <span className="text-sm font-semibold text-white">{b.name.split(' ')[0]}</span>
                                                         <div className="flex items-center gap-3 text-[11px]">
                                                             <span className="text-green-400">Pago <span className="font-bold">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(b.totalCommissionPaid)}</span></span>
                                                             {b.totalCommission > 0 && <span className="text-yellow-400">Pendente <span className="font-bold">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(b.totalCommission)}</span></span>}
                                                         </div>
                                                     </div>
-                                                    <div className="h-1.5 w-full bg-border-color rounded-full overflow-hidden flex">
+                                                    <div className="h-1.5 w-full bg-zinc-800 rounded-full overflow-hidden flex">
                                                         {pctPago > 0 && <div className="h-full bg-gradient-to-r from-green-600 to-green-400 transition-all duration-1000 ease-out" style={{ width: `${pctPago}%` }} />}
                                                         {pctPendente > 0 && <div className="h-full bg-yellow-500/30 transition-all duration-1000 ease-out" style={{ width: `${pctPendente}%` }} />}
                                                     </div>
@@ -783,11 +783,11 @@ export default function CommissionsPage() {
                             {data.barbers.length > 0 && (() => {
                                 const maxRevenue = Math.max(...data.barbers.map((b: any) => b.totalRevenue), 1)
                                 return (
-                                    <div className="bg-bg-card border border-border-color rounded-xl p-4 mb-3">
+                                    <div className="bg-zinc-900 border border-white/[0.06] rounded-xl p-4 mb-3">
                                         <div className="flex items-center gap-3 mb-4">
-                                            <div className="h-px flex-1 bg-border-color" />
-                                            <p className="text-[10px] font-bold text-text-secondary uppercase tracking-widest shrink-0">Faturamento por profissional</p>
-                                            <div className="h-px flex-1 bg-border-color" />
+                                            <div className="h-px flex-1 bg-white/[0.05]" />
+                                            <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest shrink-0">Faturamento por profissional</p>
+                                            <div className="h-px flex-1 bg-white/[0.05]" />
                                         </div>
                                         <div className="space-y-3">
                                             {data.barbers.map((b: any, i: number) => {
@@ -803,10 +803,10 @@ export default function CommissionsPage() {
                                                         <span className="w-5 text-center text-sm shrink-0">
                                                             {i < 3 ? medals[i] : <span className="text-zinc-600 text-xs font-bold">{i + 1}</span>}
                                                         </span>
-                                                        <span className="w-16 text-xs font-semibold text-text-primary truncate shrink-0">
+                                                        <span className="w-16 text-xs font-semibold text-zinc-200 truncate shrink-0">
                                                             {b.name.split(' ')[0]}
                                                         </span>
-                                                        <div className="flex-1 h-5 bg-bg-input rounded-md overflow-hidden relative">
+                                                        <div className="flex-1 h-5 bg-zinc-800/50 rounded-md overflow-hidden relative">
                                                             <div
                                                                 className="h-full rounded-md transition-all duration-700 ease-out"
                                                                 style={{ width: `${pct}%`, background: colors[i] || colors[2] }}
@@ -824,13 +824,13 @@ export default function CommissionsPage() {
                             })()}
                             {/* === MOBILE CARD VIEW (hidden on md+) === */}
                             <div className="md:hidden space-y-2">
-                                <p className="text-[10px] font-bold text-text-secondary uppercase tracking-widest px-1 mb-3">Resumo por Profissional</p>
+                                <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest px-1 mb-3">Resumo por Profissional</p>
                                 {data.barbers.length === 0 ? (
-                                    <div className="flex flex-col items-center justify-center py-12 text-text-secondary bg-bg-card rounded-xl border border-border-color">
+                                    <div className="flex flex-col items-center justify-center py-12 text-zinc-500 bg-zinc-900 rounded-xl border border-white/5">
                                         <Scissors className="w-8 h-8 opacity-30 mb-3" />
-                                        <p className="text-sm font-semibold text-text-primary mb-1">Nenhuma comissão gerada</p>
-                                        <p className="text-xs text-center px-6 mb-4 text-text-secondary">Registre atendimentos na agenda para gerar comissões.</p>
-                                        <Button variant="outline" size="sm" className="bg-transparent border-border-color text-xs" onClick={() => window.location.href = `/${slug}/admin/agenda`}>Ir para Agenda</Button>
+                                        <p className="text-sm font-semibold text-white mb-1">Nenhuma comissão gerada</p>
+                                        <p className="text-xs text-center px-6 mb-4">Registre atendimentos na agenda para gerar comissões.</p>
+                                        <Button variant="outline" size="sm" className="bg-transparent border-white/10 text-xs" onClick={() => window.location.href = `/${slug}/admin/agenda`}>Ir para Agenda</Button>
                                     </div>
                                 ) : data.barbers.map((barber: any) => {
                                     let statusColor = "text-zinc-400 bg-zinc-500/15 border-zinc-500/30";
@@ -839,15 +839,15 @@ export default function CommissionsPage() {
                                     else if (barber.totalCommission > 0 && barber.totalCommissionPaid > 0) { statusColor = "text-blue-400 bg-blue-500/15 border-blue-500/30"; statusText = "Parcial"; }
                                     else if (barber.totalCommission > 0 && barber.totalCommissionPaid === 0) { statusColor = "text-yellow-400 bg-yellow-500/15 border-yellow-500/30"; statusText = "Pendente"; }
                                     return (
-                                        <div key={barber.id} className="bg-bg-card border border-border-color rounded-xl p-3.5">
+                                        <div key={barber.id} className="bg-zinc-900 border border-white/[0.06] rounded-xl p-3.5">
                                             {/* Top: avatar + name + status */}
                                             <div className="flex items-center justify-between mb-3">
                                                 <div className="flex items-center gap-2.5">
-                                                    <div className="w-9 h-9 rounded-full bg-bg-input border border-border-color flex items-center justify-center shrink-0 overflow-hidden">
+                                                    <div className="w-9 h-9 rounded-full bg-zinc-800 border border-white/10 flex items-center justify-center shrink-0 overflow-hidden">
                                                         {barber.photoUrl ? <img src={barber.photoUrl} alt={barber.name} className="w-full h-full object-cover" /> : <User className="w-4 h-4 text-zinc-500" />}
                                                     </div>
                                                     <div>
-                                                        <p className="text-sm font-bold text-text-primary">{barber.name}</p>
+                                                        <p className="text-sm font-bold text-white">{barber.name}</p>
                                                         <p className="text-[10px] text-zinc-500">{barber.totalAppointments} atendimento{barber.totalAppointments !== 1 ? 's' : ''}</p>
                                                     </div>
                                                 </div>
@@ -885,8 +885,8 @@ export default function CommissionsPage() {
                             </div>
 
                             {/* === DESKTOP TABLE (hidden on mobile) === */}
-                            <Card className="hidden md:block bg-bg-card border-border-color shadow-sm overflow-hidden">
-                                <CardHeader className="border-b border-border-color bg-table-header-bg pb-4">
+                            <Card className="hidden md:block bg-[#1c1c1c] border-white/5 shadow-2xl overflow-hidden">
+                                <CardHeader className="border-b border-white/5 bg-zinc-900/50 pb-4">
                                     <CardTitle className="text-lg flex items-center gap-2">
                                         Resumo por Profissional
                                     </CardTitle>
@@ -1045,7 +1045,7 @@ export default function CommissionsPage() {
                                                             </div>
                                                             <h3 className="text-lg font-bold text-white mb-2">Nenhuma comissão gerada neste período</h3>
                                                             <p className="max-w-sm mb-6">Comece registrando atendimentos na agenda ou PDV para que os repasses sejam calculados automaticamente.</p>
-                                                            <Button variant="outline" className="bg-bg-card border-border-color hover:bg-hover-bg" onClick={() => window.location.href = `/${slug}/admin/agenda`}>
+                                                            <Button variant="outline" className="bg-[#1c1c1c] border-white/10 hover:bg-white/5" onClick={() => window.location.href = `/${slug}/admin/agenda`}>
                                                                 Ir para Agenda
                                                             </Button>
                                                         </div>
@@ -1059,10 +1059,10 @@ export default function CommissionsPage() {
 
                             {/* Barber Details Modal */}
                             <Dialog open={detailsModalOpen} onOpenChange={setDetailsModalOpen}>
-                                <DialogContent className="bg-bg-card border-border-color text-text-primary max-w-4xl max-h-[85vh] flex flex-col p-0 overflow-hidden">
+                                <DialogContent className="bg-[#1c1c1c] border-white/10 text-white max-w-4xl max-h-[85vh] flex flex-col p-0 overflow-hidden">
                                     {selectedBarberDetails && (
                                         <>
-                                            <div className="p-6 border-b border-border-color flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-table-header-bg">
+                                            <div className="p-6 border-b border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-zinc-900/50">
                                                 <div>
                                                     <DialogTitle className="text-2xl font-bold flex items-center gap-2">
                                                         {selectedBarberDetails.name}
@@ -1087,7 +1087,7 @@ export default function CommissionsPage() {
                                                     <Button
                                                         variant="outline"
                                                         size="sm"
-                                                        className="bg-bg-card-hover border-border-color text-text-secondary hover:bg-hover-bg h-12"
+                                                        className="bg-zinc-800 border-zinc-700 text-zinc-300 hover:bg-zinc-700 h-12"
                                                         onClick={exportDetailedCSV}
                                                     >
                                                         <Download className="w-4 h-4 mr-2" />
@@ -1099,7 +1099,7 @@ export default function CommissionsPage() {
                                                                 onClick={() => setValeModalOpen(true)}
                                                                 variant="outline"
                                                                 disabled={isPaying}
-                                                                className="bg-hover-bg border-border-color hover:bg-bg-card-hover text-text-secondary font-bold h-12 px-6 transition-all"
+                                                                className="bg-black/20 border-white/10 hover:bg-white/5 text-zinc-300 font-bold h-12 px-6 transition-all"
                                                             >
                                                                 Abater Vale
                                                             </Button>
@@ -1171,7 +1171,7 @@ export default function CommissionsPage() {
 
                             {/* Barber Configuration Modal */}
                             <Dialog open={configModalOpen} onOpenChange={setConfigModalOpen}>
-                                <DialogContent className="bg-bg-card border-border-color text-text-primary max-w-2xl max-h-[85vh] flex flex-col p-6 overflow-hidden">
+                                <DialogContent className="bg-[#1c1c1c] border-white/10 text-white max-w-2xl max-h-[85vh] flex flex-col p-6 overflow-hidden">
                                     <DialogHeader className="mb-4">
                                         <DialogTitle className="text-2xl font-bold flex items-center gap-2">
                                             <Settings className="w-5 h-5 text-[#DBC278]" />
@@ -1184,7 +1184,7 @@ export default function CommissionsPage() {
 
                                     <div className="flex-1 overflow-y-auto pr-2 space-y-4">
                                         {configBarbers.map((barber) => (
-                                            <div key={barber.id} className="bg-bg-card-hover border border-border-color rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                                            <div key={barber.id} className="bg-zinc-900/50 border border-white/5 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
                                                 <div className="flex items-center gap-3 w-full sm:w-1/3">
                                                     <div className="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center border border-white/10 flex-shrink-0">
                                                         <User className="w-5 h-5 text-zinc-400" />
@@ -1199,10 +1199,10 @@ export default function CommissionsPage() {
                                                             value={barber.commission_type || "percentage"}
                                                             onValueChange={(val) => handleConfigTypeChange(barber.id, val)}
                                                         >
-                                                            <SelectTrigger className="bg-bg-input border-border-color h-9">
+                                                            <SelectTrigger className="bg-black/20 border-white/10 h-9">
                                                                 <SelectValue />
                                                             </SelectTrigger>
-                                                            <SelectContent className="bg-bg-card border-border-color text-text-primary">
+                                                            <SelectContent className="bg-[#1c1c1c] border-white/10 text-white">
                                                                 <SelectItem value="percentage">Porcentagem (%)</SelectItem>
                                                                 <SelectItem value="fixed">Valor Fixo (R$)</SelectItem>
                                                             </SelectContent>
@@ -1218,7 +1218,7 @@ export default function CommissionsPage() {
                                                                 type="text"
                                                                 value={barber.commission_value || 0}
                                                                 onChange={(e) => handleConfigValueChange(barber.id, barber.commission_type || 'percentage', e.target.value)}
-                                                                className="bg-bg-input border-border-color h-9 pl-9"
+                                                                className="bg-black/20 border-white/10 h-9 pl-9"
                                                             />
                                                         </div>
                                                     </div>
@@ -1254,7 +1254,7 @@ export default function CommissionsPage() {
 
                             {/* Payment Registration Modal (Novo Fluxo de UX) */}
                             <Dialog open={paymentModalOpen} onOpenChange={setPaymentModalOpen}>
-                                <DialogContent className="bg-bg-card border-border-color text-text-primary max-w-sm flex flex-col p-6 overflow-hidden">
+                                <DialogContent className="bg-[#1c1c1c] border-white/10 text-white max-w-sm flex flex-col p-6 overflow-hidden">
                                     <DialogHeader className="mb-4">
                                         <DialogTitle className="text-xl font-bold flex items-center gap-2">
                                             <Wallet className="w-5 h-5 text-green-400" />
@@ -1267,7 +1267,7 @@ export default function CommissionsPage() {
 
                                     {selectedPaymentBarber && (
                                         <div className="space-y-5">
-                                            <div className="flex justify-between items-center bg-bg-card-hover p-3 rounded-xl border border-border-color">
+                                            <div className="flex justify-between items-center bg-black/20 p-3 rounded-xl border border-white/5">
                                                 <div className="flex flex-col">
                                                     <span className="text-xs text-zinc-500 uppercase font-bold tracking-wider">Profissional</span>
                                                     <span className="text-sm font-semibold text-zinc-200 mt-0.5">{selectedPaymentBarber.name}</span>
@@ -1328,7 +1328,7 @@ export default function CommissionsPage() {
 
                             {/* Abater Vale Modal */}
                             <Dialog open={valeModalOpen} onOpenChange={setValeModalOpen}>
-                                <DialogContent className="bg-bg-card border-border-color text-text-primary max-w-sm flex flex-col p-6 overflow-hidden">
+                                <DialogContent className="bg-[#1c1c1c] border-white/10 text-white max-w-sm flex flex-col p-6 overflow-hidden">
                                     <DialogHeader className="mb-4">
                                         <DialogTitle className="text-xl font-bold">
                                             Abater Vale
@@ -1349,7 +1349,7 @@ export default function CommissionsPage() {
                                                 autoFocus
                                                 value={valeAmount}
                                                 onChange={(e) => handleValeChange(e.target.value)}
-                                                className="bg-bg-input border-border-color h-14 pl-9 text-xl font-medium"
+                                                className="bg-black/20 border-white/10 h-14 pl-9 text-xl font-medium"
                                                 placeholder="0,00"
                                             />
                                         </div>
@@ -1380,7 +1380,7 @@ export default function CommissionsPage() {
                         </TabsContent>
 
                         <TabsContent value="history" className="m-0 focus-visible:outline-none">
-                            <Card className="bg-bg-card border-border-color shadow-sm overflow-hidden min-h-[400px] flex flex-col items-center justify-center p-8 text-center relative">
+                            <Card className="bg-[#1c1c1c] border-white/5 shadow-2xl overflow-hidden min-h-[400px] flex flex-col items-center justify-center p-8 text-center relative pointer-events-none">
                                 <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/80 z-10 hidden" />
                                 <div className="relative z-20">
                                     <Clock className="w-16 h-16 text-zinc-500 mx-auto mb-4 opacity-50" />
@@ -1403,13 +1403,13 @@ export default function CommissionsPage() {
 
 function SummaryCard({ title, value, icon, color, tooltip }: { title: string, value: string | React.ReactNode, icon: React.ReactNode, color?: string, tooltip?: string }) {
     return (
-        <Card className="relative overflow-hidden bg-bg-card border-border-color text-text-primary shadow-sm" title={tooltip}>
+        <Card className="relative overflow-hidden bg-[#1c1c1c] border-white/5 text-white shadow-xl" title={tooltip}>
             <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${color || 'from-white/5 to-transparent'} blur-3xl opacity-50`} />
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
                 <CardTitle className={`text-xs font-bold text-zinc-400 uppercase tracking-wider ${tooltip ? 'border-b border-dashed border-zinc-600 cursor-help' : ''}`}>
                     {title}
                 </CardTitle>
-                <div className="p-2 bg-hover-bg rounded-lg border border-border-color">
+                <div className="p-2 bg-black/20 rounded-lg backdrop-blur-sm border border-white/5">
                     {icon}
                 </div>
             </CardHeader>

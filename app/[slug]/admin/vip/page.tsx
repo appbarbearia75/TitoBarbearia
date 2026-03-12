@@ -57,7 +57,7 @@ function SortableRow({
         transition,
         zIndex: isDragging ? 10 : 1,
         position: isDragging ? 'relative' as 'relative' : undefined,
-        backgroundColor: isDragging ? 'var(--bg-hover)' : undefined
+        backgroundColor: isDragging ? '#27272a' : undefined // zinc-800
     }
 
     const formatCurrencyInternal = (value: number) => {
@@ -71,7 +71,7 @@ function SortableRow({
         <TableRow
             ref={setNodeRef}
             style={style}
-            className="border-border-color hover:bg-table-row-hover group cursor-pointer md:cursor-default"
+            className="border-zinc-800 hover:bg-zinc-800/50 group cursor-pointer md:cursor-default"
             onClick={() => {
                 if (window.innerWidth < 768 && onSelect) {
                     onSelect(plan)
@@ -79,7 +79,7 @@ function SortableRow({
             }}
         >
             <TableCell className="w-[40px] px-2 sm:px-4">
-                <div {...attributes} {...listeners} className="cursor-grab hover:text-text-primary text-text-muted flex items-center justify-center">
+                <div {...attributes} {...listeners} className="cursor-grab hover:text-white text-zinc-600 flex items-center justify-center">
                     <GripVertical className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
             </TableCell>
@@ -88,7 +88,7 @@ function SortableRow({
                     {plan.title}
                     {plan.highlight_text && <span className="hidden sm:inline-block text-[10px] bg-[#DBC278]/20 text-[#DBC278] px-1.5 py-0.5 rounded uppercase">{plan.highlight_text}</span>}
                 </div>
-                <div className="hidden sm:block text-xs text-text-muted truncate mt-0.5">{plan.description}</div>
+                <div className="hidden sm:block text-xs text-zinc-500 truncate mt-0.5">{plan.description}</div>
                 <div className="md:hidden mt-2 text-[9px] text-[#DBC278]/80 font-bold uppercase tracking-wider flex items-center">
                     Clique para expandir
                 </div>
@@ -96,10 +96,10 @@ function SortableRow({
             <TableCell className="px-2 sm:px-4 w-[80px] sm:w-auto">
                 <div className="text-xs sm:text-sm font-bold whitespace-nowrap">R$ {Number(plan.price).toFixed(2)}</div>
                 {plan.price_from && (
-                    <div className="text-[10px] text-text-muted line-through sm:hidden whitespace-nowrap mt-0.5">R$ {Number(plan.price_from).toFixed(2)}</div>
+                    <div className="text-[10px] text-zinc-500 line-through sm:hidden whitespace-nowrap mt-0.5">R$ {Number(plan.price_from).toFixed(2)}</div>
                 )}
             </TableCell>
-            <TableCell className="hidden sm:table-cell px-2 sm:px-4 whitespace-nowrap text-sm text-text-muted">
+            <TableCell className="hidden sm:table-cell px-2 sm:px-4 whitespace-nowrap text-sm text-zinc-500">
                 {plan.price_from ? `R$ ${Number(plan.price_from).toFixed(2)}` : "-"}
             </TableCell>
             <TableCell className="text-right px-1 sm:px-4 w-[70px] sm:w-auto">
@@ -107,7 +107,7 @@ function SortableRow({
                     <Button
                         size="sm"
                         variant="ghost"
-                        className="h-8 px-2 text-text-muted hover:text-text-primary hover:bg-hover-bg opacity-100 sm:opacity-50 group-hover:opacity-100 transition-opacity"
+                        className="h-8 px-2 text-zinc-400 hover:text-white hover:bg-white/10 opacity-100 sm:opacity-50 group-hover:opacity-100 transition-opacity"
                         onClick={(e) => { e.stopPropagation(); onEdit(plan); }}
                     >
                         Editar
@@ -278,7 +278,7 @@ export default function VipConfigPage() {
                         <Crown className="w-8 h-8 text-[#DBC278]" />
                         Planos VIP
                     </h1>
-                    <p className="text-text-secondary">Gerencie os planos de assinatura para seus clientes.</p>
+                    <p className="text-zinc-400">Gerencie os planos de assinatura para seus clientes.</p>
                 </div>
                 <div className="flex gap-2">
                     {hasUnsavedOrder && (
@@ -302,7 +302,7 @@ export default function VipConfigPage() {
             </div>
 
             <Dialog open={isCreating} onOpenChange={setIsCreating}>
-                <DialogContent className="bg-bg-card border-border-color text-text-primary shadow-xl sm:max-w-[600px] overflow-hidden">
+                <DialogContent className="bg-[#09090b] border-[#DBC278]/20 text-white shadow-[0_0_50px_rgba(219,194,120,0.15)] sm:max-w-[600px] overflow-hidden">
                     {/* Background glow effect for VIP look */}
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[150%] h-32 bg-[#DBC278]/10 blur-[50px] pointer-events-none" />
 
@@ -315,7 +315,7 @@ export default function VipConfigPage() {
                             )}
                             <Sparkles className="w-4 h-4 text-[#DBC278]" />
                         </DialogTitle>
-                        <DialogDescription className="text-text-muted">
+                        <DialogDescription className="text-zinc-400">
                             Configure os detalhes do plano de assinatura.
                         </DialogDescription>
                     </DialogHeader>
@@ -323,30 +323,30 @@ export default function VipConfigPage() {
                     <div className="relative z-10 grid gap-6 py-4">
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label className="text-text-secondary">Nome do Plano</Label>
+                                <Label className="text-zinc-300">Nome do Plano</Label>
                                 <Input
                                     placeholder="ex: VIP Black"
                                     value={newPlan.title}
                                     onChange={(e) => setNewPlan(prev => ({ ...prev, title: e.target.value }))}
-                                    className="bg-bg-input border-border-color focus-visible:ring-accent-primary/50"
+                                    className="bg-[#1c1c1c] border-white/10 focus-visible:ring-[#DBC278]/50"
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label className="text-text-secondary">Texto Destaque (Cards)</Label>
+                                <Label className="text-zinc-300">Texto Destaque (Cards)</Label>
                                 <Input
                                     placeholder="ex: Cortes Ilimitados"
                                     value={newPlan.highlight_text}
                                     onChange={(e) => setNewPlan(prev => ({ ...prev, highlight_text: e.target.value }))}
-                                    className="bg-bg-input border-border-color focus-visible:ring-accent-primary/50"
+                                    className="bg-[#1c1c1c] border-white/10 focus-visible:ring-[#DBC278]/50"
                                 />
                             </div>
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label className="text-text-secondary">Preço Mensal</Label>
+                                <Label className="text-zinc-300">Preço Mensal</Label>
                                 <div className="relative">
-                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted font-medium">R$</span>
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 font-medium">R$</span>
                                     <Input
                                         placeholder="0,00"
                                         value={newPlan.price.replace(/^R\$\s*/i, "").trim()}
@@ -354,14 +354,14 @@ export default function VipConfigPage() {
                                             const formatted = formatCurrency(e.target.value)
                                             setNewPlan(prev => ({ ...prev, price: formatted }))
                                         }}
-                                        className="bg-bg-input border-border-color focus-visible:ring-accent-primary/50 pl-9 font-bold text-accent-primary"
+                                        className="bg-[#1c1c1c] border-white/10 focus-visible:ring-[#DBC278]/50 pl-9 font-bold text-[#DBC278]"
                                     />
                                 </div>
                             </div>
                             <div className="space-y-2">
-                                <Label className="text-text-secondary">Preço Original (Riscado)</Label>
+                                <Label className="text-zinc-300">Preço Original (Riscado)</Label>
                                 <div className="relative">
-                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted font-medium">R$</span>
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 font-medium">R$</span>
                                     <Input
                                         placeholder="Opcional"
                                         value={newPlan.price_from.replace(/^R\$\s*/i, "").trim()}
@@ -369,28 +369,28 @@ export default function VipConfigPage() {
                                             const formatted = formatCurrency(e.target.value)
                                             setNewPlan(prev => ({ ...prev, price_from: formatted }))
                                         }}
-                                        className="bg-bg-input border-border-color focus-visible:ring-accent-primary/50 pl-9 text-text-muted"
+                                        className="bg-[#1c1c1c] border-white/10 focus-visible:ring-[#DBC278]/50 pl-9 text-zinc-400"
                                     />
                                 </div>
                             </div>
                         </div>
 
                         <div className="space-y-2">
-                            <Label className="text-text-secondary">Descrição / Benefícios Curtos</Label>
+                            <Label className="text-zinc-300">Descrição / Benefícios Curtos</Label>
                             <Input
                                 placeholder="ex: Tenha acesso livre à barbearia..."
                                 value={newPlan.description}
                                 onChange={(e) => setNewPlan(prev => ({ ...prev, description: e.target.value }))}
-                                className="bg-bg-input border-border-color focus-visible:ring-accent-primary/50"
+                                className="bg-[#1c1c1c] border-white/10 focus-visible:ring-[#DBC278]/50"
                             />
                         </div>
                     </div>
 
-                    <DialogFooter className="relative z-10 border-t border-border-color pt-4">
+                    <DialogFooter className="relative z-10 border-t border-white/5 pt-4">
                         <Button
                             variant="ghost"
                             onClick={() => setIsCreating(false)}
-                            className="text-text-secondary hover:text-text-primary hover:bg-hover-bg"
+                            className="text-zinc-400 hover:text-white hover:bg-white/5"
                         >
                             Cancelar
                         </Button>
@@ -405,7 +405,7 @@ export default function VipConfigPage() {
                 </DialogContent>
             </Dialog>
 
-            <Card className="bg-bg-card border-border-color text-text-primary shadow-sm">
+            <Card className="bg-[#1c1c1c] border-white/5 text-white shadow-2xl shadow-black/50">
                 <CardContent className="p-0">
                     <DndContext
                         sensors={sensors}
@@ -414,12 +414,12 @@ export default function VipConfigPage() {
                     >
                         <Table>
                             <TableHeader>
-                                <TableRow className="border-border-color hover:bg-table-row-hover">
+                                <TableRow className="border-zinc-800 hover:bg-zinc-800/50">
                                     <TableHead className="w-[40px] px-2 sm:px-4"></TableHead>
-                                    <TableHead className="text-text-secondary px-2 sm:px-4 text-xs sm:text-sm">Plano</TableHead>
-                                    <TableHead className="text-text-secondary px-2 sm:px-4 text-xs sm:text-sm">Preço</TableHead>
-                                    <TableHead className="text-text-secondary px-2 sm:px-4 hidden sm:table-cell text-sm">De (Original)</TableHead>
-                                    <TableHead className="text-right text-text-secondary px-2 sm:px-4 text-xs sm:text-sm pr-4">Ações</TableHead>
+                                    <TableHead className="text-zinc-400 px-2 sm:px-4 text-xs sm:text-sm">Plano</TableHead>
+                                    <TableHead className="text-zinc-400 px-2 sm:px-4 text-xs sm:text-sm">Preço</TableHead>
+                                    <TableHead className="text-zinc-400 px-2 sm:px-4 hidden sm:table-cell text-sm">De (Original)</TableHead>
+                                    <TableHead className="text-right text-zinc-400 px-2 sm:px-4 text-xs sm:text-sm pr-4">Ações</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -433,7 +433,7 @@ export default function VipConfigPage() {
                                         </TableRow>
                                     ) : plans.length === 0 ? (
                                         <TableRow>
-                                            <TableCell colSpan={5} className="text-center py-8 text-text-muted">Nenhum plano VIP cadastrado.</TableCell>
+                                            <TableCell colSpan={5} className="text-center py-8 text-zinc-500">Nenhum plano VIP cadastrado.</TableCell>
                                         </TableRow>
                                     ) : (
                                         plans.map((plan) => (
@@ -467,7 +467,7 @@ export default function VipConfigPage() {
             {/* Mobile Plan Details Modal */}
             <Dialog open={!!selectedPlan} onOpenChange={(open) => !open && setSelectedPlan(null)}>
                 {selectedPlan && (
-                    <DialogContent className="bg-bg-card border-border-color text-text-primary shadow-xl sm:max-w-[400px]">
+                    <DialogContent className="bg-[#09090b] border-[#DBC278]/20 text-white shadow-[0_0_50px_rgba(219,194,120,0.15)] sm:max-w-[400px]">
                         <DialogHeader>
                             <DialogTitle className="text-xl flex flex-col gap-1">
                                 <div className="flex items-center gap-2">
@@ -482,17 +482,17 @@ export default function VipConfigPage() {
                             </DialogTitle>
                         </DialogHeader>
                         <div className="space-y-4 py-4">
-                            <div className="bg-bg-card-hover p-4 rounded-xl border border-border-color space-y-2 relative overflow-hidden">
+                            <div className="bg-[#1c1c1c] p-4 rounded-xl border border-white/5 space-y-2 relative overflow-hidden">
                                 <Sparkles className="absolute right-[-10px] bottom-[-10px] w-20 h-20 text-[#DBC278]/5 pointer-events-none" />
                                 <div className="flex justify-between items-end">
                                     <div>
-                                        <span className="block text-xs uppercase font-bold text-text-muted mb-1">Valor do Plano</span>
+                                        <span className="block text-xs uppercase font-bold text-zinc-500 mb-1">Valor do Plano</span>
                                         <span className="text-3xl font-black text-[#DBC278]">R$ {Number(selectedPlan.price).toFixed(2)}</span>
                                     </div>
                                     {selectedPlan.price_from && (
                                         <div className="text-right">
-                                            <span className="block text-[10px] uppercase text-text-muted">Valor Original</span>
-                                            <span className="text-sm font-bold text-text-muted line-through decoration-red-500/50">R$ {Number(selectedPlan.price_from).toFixed(2)}</span>
+                                            <span className="block text-[10px] uppercase text-zinc-500">Valor Original</span>
+                                            <span className="text-sm font-bold text-zinc-500 line-through decoration-red-500/50">R$ {Number(selectedPlan.price_from).toFixed(2)}</span>
                                         </div>
                                     )}
                                 </div>
@@ -500,12 +500,12 @@ export default function VipConfigPage() {
 
                             {selectedPlan.description && (
                                 <div>
-                                    <span className="block text-xs uppercase font-bold text-text-muted mb-1">Descrição / Benefícios</span>
-                                    <p className="text-sm text-text-secondary leading-relaxed">{selectedPlan.description}</p>
+                                    <span className="block text-xs uppercase font-bold text-zinc-500 mb-1">Descrição / Benefícios</span>
+                                    <p className="text-sm text-zinc-300 leading-relaxed">{selectedPlan.description}</p>
                                 </div>
                             )}
 
-                            <div className="flex flex-col gap-3 pt-6 border-t border-border-color">
+                            <div className="flex flex-col gap-3 pt-6 border-t border-white/5">
                                 <Button
                                     variant="outline"
                                     onClick={() => {
@@ -520,7 +520,7 @@ export default function VipConfigPage() {
                                         setSelectedPlan(null)
                                         setIsCreating(true)
                                     }}
-                                    className="w-full h-12 border-border-color text-text-primary hover:bg-hover-bg"
+                                    className="w-full h-12 border-white/10 text-white hover:bg-white/5"
                                 >
                                     Editar Detalhes
                                 </Button>

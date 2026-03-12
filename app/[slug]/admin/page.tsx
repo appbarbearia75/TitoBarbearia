@@ -630,10 +630,12 @@ export default function TenantDashboard() {
                                             }}
                                         />
                                     )}
-                                    <Bar dataKey="total" radius={[4, 4, 0, 0]} maxBarSize={50} fill="var(--chart-bar)">
-                                        {weeklyRevenue.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill="var(--chart-bar)" fillOpacity={1} />
-                                        ))}
+                                    <Bar dataKey="total" radius={[4, 4, 0, 0]} maxBarSize={50}>
+                                        {weeklyRevenue.map((entry, index) => {
+                                            const maxTotal = Math.max(...weeklyRevenue.map(d => d.total));
+                                            const isMax = entry.total === maxTotal && entry.total > 0;
+                                            return <Cell key={`cell-${index}`} fill={isMax ? "var(--chart-bar)" : "var(--chart-bar)"} fillOpacity={isMax ? 1 : 0.4} />;
+                                        })}
                                         <LabelList
                                             dataKey="total"
                                             position="top"

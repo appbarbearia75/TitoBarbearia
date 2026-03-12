@@ -344,23 +344,14 @@ export default function PDVPage() {
 
                 <Tabs defaultValue="services" className="flex-1 flex flex-col overflow-hidden">
                     <div className="px-4 pt-2">
-                        <TabsList className="bg-bg-card w-full justify-start border border-border-color p-1 h-auto flex flex-col sm:flex-row gap-1">
-                            <TabsTrigger
-                                value="services"
-                                className="flex-1 py-2.5 rounded-md font-bold whitespace-nowrap w-full sm:w-auto transition-all text-text-secondary bg-bg-input border border-border-color hover:bg-bg-card-hover data-[state=active]:bg-primary-action data-[state=active]:text-white data-[state=active]:border-primary-action data-[state=active]:shadow-sm dark:data-[state=active]:bg-accent-primary dark:data-[state=active]:text-black"
-                            >
+                        <TabsList className="bg-bg-input w-full justify-start border border-border-color p-1 h-auto flex flex-col sm:flex-row">
+                            <TabsTrigger value="services" className="flex-1 py-3 data-[state=active]:bg-accent-primary data-[state=active]:text-white dark:data-[state=active]:text-black text-text-secondary font-bold whitespace-nowrap w-full sm:w-auto transition-all">
                                 <Scissors className="w-4 h-4 mr-2" /> Serviços
                             </TabsTrigger>
-                            <TabsTrigger
-                                value="products"
-                                className="flex-1 py-2.5 rounded-md font-bold whitespace-nowrap w-full sm:w-auto transition-all text-text-secondary bg-bg-input border border-border-color hover:bg-bg-card-hover data-[state=active]:bg-primary-action data-[state=active]:text-white data-[state=active]:border-primary-action data-[state=active]:shadow-sm dark:data-[state=active]:bg-accent-primary dark:data-[state=active]:text-black"
-                            >
+                            <TabsTrigger value="products" className="flex-1 py-3 data-[state=active]:bg-accent-primary data-[state=active]:text-white dark:data-[state=active]:text-black text-text-secondary font-bold whitespace-nowrap w-full sm:w-auto transition-all">
                                 <Package className="w-4 h-4 mr-2" /> Produtos
                             </TabsTrigger>
-                            <TabsTrigger
-                                value="agenda"
-                                className="flex-1 py-2.5 rounded-md font-bold whitespace-nowrap w-full sm:w-auto transition-all text-text-secondary bg-bg-input border border-border-color hover:bg-bg-card-hover data-[state=active]:bg-primary-action data-[state=active]:text-white data-[state=active]:border-primary-action data-[state=active]:shadow-sm dark:data-[state=active]:bg-accent-primary dark:data-[state=active]:text-black"
-                            >
+                            <TabsTrigger value="agenda" className="flex-1 py-3 bg-bg-page hover:bg-hover-bg text-text-secondary data-[state=active]:bg-accent-primary data-[state=active]:text-white dark:data-[state=active]:text-black font-bold whitespace-nowrap w-full sm:w-auto transition-all">
                                 <Calendar className="w-4 h-4 mr-2" /> Puxar da Agenda
                             </TabsTrigger>
                         </TabsList>
@@ -373,7 +364,7 @@ export default function PDVPage() {
                                     <button
                                         key={service.id}
                                         onClick={() => addToCart(service, 'service')}
-                                        className="bg-bg-card border border-border-color hover:bg-bg-card-hover hover:border-primary-action/50 rounded-xl p-4 text-left transition-all group focus:outline-none focus:ring-2 focus:ring-primary-action active:scale-95"
+                                        className="bg-bg-page hover:bg-hover-bg border border-border-color hover:border-accent-primary/50 rounded-xl p-4 text-left transition-all group focus:outline-none focus:ring-2 focus:ring-accent-primary active:scale-95"
                                     >
                                         <h3 className="font-bold text-text-primary group-hover:text-accent-primary transition-colors leading-tight mb-2">
                                             {service.title}
@@ -382,7 +373,7 @@ export default function PDVPage() {
                                     </button>
                                 ))}
                                 {filteredServices.length === 0 && (
-                                    <div className="col-span-full py-10 text-center text-text-muted">Nenhum serviço encontrado.</div>
+                                    <div className="col-span-full py-10 text-center text-zinc-500">Nenhum serviço encontrado.</div>
                                 )}
                             </div>
                         </TabsContent>
@@ -394,7 +385,7 @@ export default function PDVPage() {
                                         key={product.id}
                                         onClick={() => addToCart(product, 'product')}
                                         disabled={product.stock_quantity <= 0}
-                                        className="bg-bg-card border border-border-color hover:bg-bg-card-hover disabled:opacity-50 hover:border-primary-action/50 rounded-xl p-4 text-left transition-all group focus:outline-none focus:ring-2 focus:ring-primary-action active:scale-95 relative overflow-hidden"
+                                        className="bg-bg-page hover:bg-hover-bg disabled:opacity-50 border border-border-color hover:border-accent-primary/50 rounded-xl p-4 text-left transition-all group focus:outline-none focus:ring-2 focus:ring-accent-primary active:scale-95 relative overflow-hidden"
                                     >
                                         <h3 className="font-bold text-text-primary group-hover:text-accent-primary transition-colors leading-tight mb-2 pr-6">
                                             {product.name}
@@ -407,7 +398,7 @@ export default function PDVPage() {
                                     </button>
                                 ))}
                                 {filteredProducts.length === 0 && (
-                                    <div className="col-span-full py-10 text-center text-text-muted">Nenhum produto cadastrado.</div>
+                                    <div className="col-span-full py-10 text-center text-zinc-500">Nenhum produto cadastrado.</div>
                                 )}
                             </div>
                         </TabsContent>
@@ -418,7 +409,7 @@ export default function PDVPage() {
                                     <div className="py-10 text-center text-text-muted">Nenhum agendamento pendente para hoje.</div>
                                 ) : (
                                     todayBookings.map(booking => (
-                                        <div key={booking.id} className="bg-bg-card border border-border-color rounded-xl p-4 flex items-center justify-between">
+                                        <div key={booking.id} className="bg-bg-page border border-border-color rounded-xl p-4 flex items-center justify-between">
                                             <div>
                                                 <h3 className="font-bold text-text-primary text-lg">{booking.customer_name}</h3>
                                                 <p className="text-sm text-text-secondary">

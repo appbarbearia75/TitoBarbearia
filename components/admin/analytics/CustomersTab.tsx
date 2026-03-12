@@ -7,7 +7,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis
 import { Loader2, Users, AlertTriangle, Crown, Target, Lightbulb, MessageCircle } from "lucide-react"
 import { motion } from "framer-motion"
 
-export function CustomersTab({ slug, filter }: { slug: string, filter: '7d' | '30d' | '90d' | '1y' }) {
+export function CustomersTab({ slug }: { slug: string }) {
     const [loading, setLoading] = useState(true)
     const [retention, setRetention] = useState({ r30: 0, r60: 0, r90: 0 })
     const [riskClients, setRiskClients] = useState<any[]>([])
@@ -19,7 +19,7 @@ export function CustomersTab({ slug, filter }: { slug: string, filter: '7d' | '3
 
     useEffect(() => {
         fetchCustomerData()
-    }, [slug, filter])
+    }, [slug])
 
     const fetchCustomerData = async () => {
         setLoading(true)

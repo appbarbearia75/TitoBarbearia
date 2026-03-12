@@ -665,7 +665,7 @@ export function AgendaGrid() {
                                             <CurrentTimeLine timeStr={time} />
                                         )}
                                         {/* Time Column */}
-                                        <div className="border-r border-[var(--border-color)] h-[64px] flex flex-col items-center justify-center bg-[var(--table-header-bg)] group-hover/row:bg-[var(--hover-bg)] transition-colors">
+                                        <div className="border-r border-[var(--border-color)] h-[64px] flex flex-col items-center justify-center bg-[var(--bg-sidebar)] group-hover/row:bg-[var(--hover-bg)] transition-colors">
                                             <span className="text-xs font-bold text-[var(--text-muted)] group-hover/row:text-[var(--accent-primary)] transition-colors">{time}</span>
                                         </div>
 

@@ -13,7 +13,7 @@ export interface Client {
     id: number | string
     name: string
     age: number
-    avatar: string
+    avatar: string | null | undefined
     phone: string
     lastVisit: string
     lastService: string

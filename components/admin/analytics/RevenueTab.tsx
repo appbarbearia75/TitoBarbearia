@@ -139,9 +139,9 @@ function BarRanking({ data, maxAmount, title, isCurrency=true }: { data: any[], 
     )
 }
 
-export function RevenueTab({ slug, filter }: { slug: string, filter: '7d' | '30d' | '90d' | '1y' }) {
+export function RevenueTab({ slug }: { slug: string }) {
     const [loading, setLoading] = useState(true)
-    // Remover o estado de filtro interno, agora vem de prop
+    const [filter, setFilter] = useState<'7d' | '30d' | '90d' | '1y'>('30d')
     const [metrics, setMetrics] = useState({ 
         revenue: 0, prevRevenue: 0, 
         ticket: 0, prevTicket: 0, 
@@ -333,6 +333,24 @@ export function RevenueTab({ slug, filter }: { slug: string, filter: '7d' | '30d
 
     return (
         <div className="space-y-10 animate-in fade-in duration-700">
+            {/* Cabecalho de Filtros */}
+            <div className="flex justify-between items-center bg-bg-card p-2 rounded-xl border border-border-color shadow-md w-full sm:w-fit">
+                {[
+                    { id: '7d', label: '7d' },
+                    { id: '30d', label: '30d' },
+                    { id: '90d', label: '90d' },
+                    { id: '1y', label: '1y' }
+                ].map(f => (
+                    <button
+                        key={f.id}
+                        onClick={() => setFilter(f.id as any)}
+                        className={`px-5 py-2 text-xs font-semibold rounded-lg transition-all ${filter === f.id ? 'bg-accent-color text-white shadow-lg shadow-accent-color/20' : 'text-text-secondary hover:text-text-primary'}`}
+                    >
+                        {f.label}
+                    </button>
+                ))}
+            </div>
+
             <section className="space-y-4">
                 <h2 className="text-xs font-bold text-text-secondary tracking-widest uppercase pb-2 border-b border-border-color">Desempenho Financeiro</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">

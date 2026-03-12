@@ -13,47 +13,50 @@ export interface BirthdayMetrics {
 
 export function InsightCards({ metrics }: { metrics: BirthdayMetrics }) {
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 animate-in fade-in duration-700">
-            <Card className="bg-bg-card border-border-color shadow-sm rounded-xl p-5 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 group">
-                <div className="p-3 bg-primary-action/10 rounded-xl w-fit group-hover:bg-primary-action/20 transition-colors">
-                    <Gift className="w-6 h-6 text-primary-action" />
-                </div>
-                <div className="mt-4">
-                    <div className="text-4xl font-extrabold text-text-primary tracking-tight">{metrics.today}</div>
-                    <div className="text-sm font-semibold text-text-secondary mt-1">Clientes hoje</div>
-                </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 animate-in fade-in slide-in-from-bottom-6 duration-700">
+            <Card className="bg-bg-card border-border-color shadow-lg relative overflow-hidden">
+                <CardHeader className="pb-2 flex flex-row items-center justify-between z-10 relative">
+                    <CardDescription className="text-xs font-semibold uppercase tracking-wider text-accent-color">Aniversariantes Ocultos</CardDescription>
+                    <CalendarDays className="w-4 h-4 text-accent-color/50" />
+                </CardHeader>
+                <CardContent className="z-10 relative">
+                    <div className="text-3xl font-bold text-text-primary">{metrics.today} / {metrics.week}</div>
+                    <div className="text-xs text-text-secondary mt-1">Hoje / Na semana</div>
+                </CardContent>
             </Card>
 
-            <Card className="bg-bg-card border-border-color shadow-sm rounded-xl p-5 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 group">
-                <div className="p-3 bg-amber-500/10 rounded-xl w-fit group-hover:bg-amber-500/20 transition-colors">
-                    <CalendarDays className="w-6 h-6 text-amber-500" />
-                </div>
-                <div className="mt-4">
-                    <div className="text-4xl font-extrabold text-text-primary tracking-tight">{metrics.week}</div>
-                    <div className="text-sm font-semibold text-text-secondary mt-1">Próximos 7 dias</div>
-                </div>
+            <Card className="bg-gradient-to-br from-bg-card via-bg-card to-orange-900/10 border-orange-500/20 shadow-lg relative overflow-hidden group">
+                <div className="absolute right-0 top-0 w-2 h-full bg-orange-500/50 group-hover:bg-orange-500 transition-colors" />
+                <CardHeader className="pb-2 flex flex-row items-center justify-between">
+                    <CardDescription className="text-xs font-semibold uppercase tracking-wider text-orange-500">Em Risco de Churn</CardDescription>
+                    <TrendingUp className="w-4 h-4 text-orange-500/50" />
+                </CardHeader>
+                <CardContent>
+                    <div className="text-3xl font-bold text-text-primary mb-1">8</div>
+                    <div className="text-[10px] text-orange-600 dark:text-orange-200/50 uppercase tracking-wide">Ausentes {">"} 60 dias</div>
+                </CardContent>
             </Card>
 
-            <Card className="bg-bg-card border-border-color shadow-sm rounded-xl p-5 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 group border-l-4 border-l-orange-500">
-                <div className="p-3 bg-red-500/10 rounded-xl w-fit group-hover:bg-red-500/20 transition-colors">
-                    <TrendingUp className="w-6 h-6 text-red-500" />
-                </div>
-                <div className="mt-4">
-                    <div className="text-4xl font-extrabold text-text-primary tracking-tight">8</div>
-                    <div className="text-sm font-semibold text-text-secondary mt-1">Clientes em risco</div>
-                    <p className="text-[10px] text-red-500 font-bold uppercase mt-1">Ausentes {">"} 60 dias</p>
-                </div>
+            <Card className="bg-bg-card border-border-color shadow-lg">
+                <CardHeader className="pb-2 flex flex-row items-center justify-between">
+                    <CardDescription className="text-xs font-semibold uppercase tracking-wider text-emerald-500">Resgatados (Últ. 30d)</CardDescription>
+                    <Gift className="w-4 h-4 text-emerald-500/50" />
+                </CardHeader>
+                <CardContent>
+                    <div className="text-3xl font-bold text-text-primary">5</div>
+                    <div className="text-[10px] text-text-secondary uppercase tracking-wide mt-1">Taxa conversão: 18%</div>
+                </CardContent>
             </Card>
 
-            <Card className="bg-bg-card border-border-color shadow-sm rounded-xl p-5 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 group bg-gradient-to-br from-bg-card to-emerald-500/5">
-                <div className="p-3 bg-emerald-500/10 rounded-xl w-fit group-hover:bg-emerald-500/20 transition-colors">
-                    <Users className="w-6 h-6 text-emerald-500" />
-                </div>
-                <div className="mt-4">
-                    <div className="text-3xl font-extrabold text-emerald-600 tracking-tight">R$ {metrics.potentialRevenue.toLocaleString('pt-BR')}</div>
-                    <div className="text-sm font-semibold text-text-secondary mt-1">Receita potencial</div>
-                    <p className="text-[10px] text-emerald-600 font-bold uppercase mt-1">Se todos retornarem</p>
-                </div>
+            <Card className="bg-bg-card border-border-color shadow-lg">
+                <CardHeader className="pb-2 flex flex-row items-center justify-between">
+                    <CardDescription className="text-xs font-semibold uppercase tracking-wider text-text-secondary">Potencial LTV Em Jogo</CardDescription>
+                    <Users className="w-4 h-4 text-text-secondary" />
+                </CardHeader>
+                <CardContent>
+                    <div className="text-3xl font-bold text-emerald-500">R$ {metrics.potentialRevenue.toLocaleString('pt-BR')}</div>
+                    <div className="text-[10px] text-text-secondary uppercase tracking-wide mt-1">Se 100% retornarem</div>
+                </CardContent>
             </Card>
         </div>
     )

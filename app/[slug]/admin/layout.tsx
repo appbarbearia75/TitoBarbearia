@@ -175,7 +175,7 @@ export default function TenantAdminLayout({
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
         <div className="min-h-screen bg-bg-primary flex font-sans text-text-primary transition-colors">
             {/* Sidebar */}
-            <aside className="w-64 border-r border-sidebar-border bg-bg-sidebar p-6 flex flex-col hidden md:flex">
+            <aside className="w-64 border-r border-border-color bg-bg-sidebar p-6 flex flex-col hidden md:flex">
                 <div className="flex items-center justify-start mb-10">
                     <Image
                         src="/simbol-and-logo-horizontal.svg"
@@ -256,7 +256,7 @@ export default function TenantAdminLayout({
                     />
                 </nav>
 
-                <div className="mt-auto flex items-center justify-between w-full pt-4 border-t border-sidebar-border">
+                <div className="mt-auto flex items-center justify-between w-full pt-4 border-t border-border-color">
                     <Button
                         variant="ghost"
                         className="justify-start text-red-500 hover:text-red-400 hover:bg-red-500/10"
@@ -395,7 +395,7 @@ export default function TenantAdminLayout({
                         />
                     </nav>
 
-                    <div className="mt-auto flex items-center justify-between w-full pt-4 border-t border-sidebar-border">
+                    <div className="mt-auto flex items-center justify-between w-full pt-4 border-t border-border-color">
                         <Button
                             variant="ghost"
                             className="mb-2 justify-start text-red-500 hover:text-red-400 hover:bg-red-500/10"
@@ -420,17 +420,12 @@ function NavItem({ href, icon, label, active, onClick }: { href: string, icon: R
         <Link
             href={href}
             onClick={onClick}
-            className={`flex items-center w-full px-3 py-2.5 rounded-lg transition-all duration-200 group relative ${
-                active
-                    ? "bg-sidebar-active-bg text-sidebar-text-active font-semibold"
-                    : "text-sidebar-text hover:text-sidebar-text-active hover:bg-sidebar-hover"
-            }`}
+            className={`flex items-center w-full px-3 py-2.5 rounded-lg transition-all duration-200 group ${active
+                ? "bg-hover-bg text-accent-color font-semibold"
+                : "text-text-secondary hover:text-text-primary hover:bg-hover-bg"
+                }`}
         >
-            {/* Indicador ativo — barra gold à esquerda */}
-            {active && (
-                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-r-full bg-sidebar-active-indicator" />
-            )}
-            <div className={`transition-colors ${active ? "text-sidebar-active-indicator" : "text-sidebar-text group-hover:text-sidebar-text-active"}`}>
+            <div className={`transition-colors ${active ? "text-accent-color" : "text-text-secondary group-hover:text-text-primary"}`}>
                 {icon}
             </div>
             <span className="ml-3 text-sm tracking-wide">

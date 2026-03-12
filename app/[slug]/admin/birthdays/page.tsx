@@ -4,30 +4,22 @@ import { useState, useEffect } from "react"
 import { useParams } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 import { Header } from "@/components/admin/birthdays/Header"
+import { InsightCards, BirthdayMetrics } from "@/components/admin/birthdays/InsightCards"
 import { ClientList } from "@/components/admin/birthdays/ClientList"
-import { UpcomingBirthdays } from "@/components/admin/birthdays/UpcomingBirthdays"
-import { OpportunitiesGrid } from "@/components/admin/birthdays/OpportunitiesGrid"
-import { GamificationPanel } from "@/components/admin/birthdays/GamificationPanel"
 import { AutomationTimeline } from "@/components/admin/birthdays/AutomationTimeline"
+import { GamificationPanel } from "@/components/admin/birthdays/GamificationPanel"
 import { Client } from "@/components/admin/birthdays/ClientCard"
-
-export interface BirthdayMetrics {
-    today: number
-    tomorrow: number
-    week: number
-    potentialRevenue: number
-    noContact: number
-}
 
 export default function BirthdaysPage() {
     const params = useParams()
     const slug = params.slug as string
     const [loading, setLoading] = useState(true)
     const [clients, setClients] = useState<Client[]>([])
-    const [allClients, setAllClients] = useState<Client[]>([]) // base for upcoming section
     const [metrics, setMetrics] = useState<BirthdayMetrics>({
         today: 0, tomorrow: 0, week: 0, potentialRevenue: 0, noContact: 0
     })
+    
+    // Header states
     const [filter, setFilter] = useState("hoje")
     const [searchQuery, setSearchQuery] = useState("")
 
@@ -38,6 +30,7 @@ export default function BirthdaysPage() {
     const fetchBirthdays = async () => {
         setLoading(true)
         try {
+            // 1. Get Barbershop ID
             const { data: barbershop } = await supabase
                 .from('barbershops')
                 .select('id, name')
@@ -46,6 +39,8 @@ export default function BirthdaysPage() {
 
             if (!barbershop) return
 
+            // 2. Fetch bookings with birthdays
+            // We fetch more fields to try calculating LTV if price exists
             const { data: bookings } = await supabase
                 .from('bookings')
                 .select('customer_name, customer_phone, customer_birthday, price, created_at')
@@ -61,11 +56,17 @@ export default function BirthdaysPage() {
             const now = new Date()
             const currentYear = now.getFullYear()
 
+            // Time References
+            const todayStart = new Date(now)
+            todayStart.setHours(0,0,0,0)
+            const tomorrowStart = new Date(todayStart)
+            tomorrowStart.setDate(todayStart.getDate() + 1)
+            
             const startOfWeek = new Date(now)
-            startOfWeek.setDate(now.getDate() - now.getDay())
+            startOfWeek.setDate(now.getDate() - now.getDay()) // Sunday
             startOfWeek.setHours(0, 0, 0, 0)
             const endOfWeek = new Date(startOfWeek)
-            endOfWeek.setDate(startOfWeek.getDate() + 6)
+            endOfWeek.setDate(startOfWeek.getDate() + 6) // Saturday
             endOfWeek.setHours(23, 59, 59, 999)
 
             let totalToday = 0
@@ -79,9 +80,12 @@ export default function BirthdaysPage() {
                 const birthDate = new Date(booking.customer_birthday)
                 const birthMonth = birthDate.getUTCMonth()
                 const birthDay = birthDate.getUTCDate()
+                
                 const birthdayThisYear = new Date(currentYear, birthMonth, birthDay)
 
+                // Match Filter
                 let matchesFilter = false
+                
                 if (filter === 'hoje') {
                     matchesFilter = (birthMonth === now.getMonth() && birthDay === now.getDate())
                 } else if (filter === 'amanha') {
@@ -94,23 +98,28 @@ export default function BirthdaysPage() {
                     matchesFilter = birthDate.getUTCMonth() === now.getMonth()
                 }
 
+                // Calculate metrics independent of filter
                 if (birthMonth === now.getMonth() && birthDay === now.getDate()) totalToday++
+                
                 const tomMetrics = new Date(now)
                 tomMetrics.setDate(now.getDate() + 1)
                 if (birthMonth === tomMetrics.getMonth() && birthDay === tomMetrics.getDate()) totalTomorrow++
+                
                 if (birthdayThisYear >= startOfWeek && birthdayThisYear <= endOfWeek) totalWeek++
-
+                
                 const price = booking.price ? Number(booking.price) : 0
 
                 if (!uniqueClients.has(booking.customer_phone)) {
-                    const age = currentYear - birthDate.getUTCFullYear()
+                    const birthYear = birthDate.getUTCFullYear()
+                    const age = currentYear - birthYear
+
                     uniqueClients.set(booking.customer_phone, {
                         id: booking.customer_phone,
                         name: booking.customer_name,
                         phone: booking.customer_phone,
-                        age,
-                        avatar: null,
-                        lastVisit: "Recentemente",
+                        age: age,
+                        avatar: `https://api.dicebear.com/7.x/initials/svg?seed=${booking.customer_name}`,
+                        lastVisit: "...",
                         lastService: "Corte",
                         ltvAmount: price,
                         frequency: "A calcular",
@@ -118,50 +127,53 @@ export default function BirthdaysPage() {
                         matchesFilter
                     })
                 } else {
-                    uniqueClients.get(booking.customer_phone).ltvAmount += price
+                    const existing = uniqueClients.get(booking.customer_phone)
+                    existing.ltvAmount += price
                 }
             })
 
+            // Format for UI
             const formattedClients: Client[] = []
-            const allFormatted: Client[] = []
-
+            
             Array.from(uniqueClients.values()).forEach(c => {
+                // If it matches search and filter
+                if (!c.matchesFilter) return
+                if (searchQuery && !c.name.toLowerCase().includes(searchQuery.toLowerCase())) return
+                
+                potentialRevenue += c.ltvAmount
+
                 const isVip = c.ltvAmount > 500
 
-                const clientData: Client = {
+                formattedClients.push({
                     id: c.id,
                     name: c.name,
                     phone: c.phone,
                     age: c.age,
-                    avatar: null,
-                    lastVisit: "Recentemente",
-                    lastService: "Serviço padrão",
+                    avatar: c.avatar,
+                    lastVisit: "Recentemente", // placeholder
+                    lastService: "Serviço padrão", // placeholder
                     ltv: `R$ ${c.ltvAmount.toLocaleString('pt-BR')}`,
                     frequency: "Cliente regular",
                     tags: isVip ? ["vip", "alto_valor"] : ["frequente"],
-                    suggestion: isVip
-                        ? { type: "opportunity", text: "Aniversariante! Cliente VIP. Ofereça um serviço premium." }
-                        : { type: "info", text: "Aniversariante! Mande uma mensagem amigável." }
-                }
-
-                allFormatted.push(clientData)
-
-                if (!c.matchesFilter) return
-                if (searchQuery && !c.name.toLowerCase().includes(searchQuery.toLowerCase())) return
-                potentialRevenue += c.ltvAmount
-                formattedClients.push(clientData)
+                    suggestion: isVip ? {
+                        type: "opportunity",
+                        text: "Cliente VIP. Ofereça um serviço premium de presente."
+                    } : {
+                        type: "info",
+                        text: "Aniversariante! Mande uma mensagem amigável."
+                    }
+                })
             })
 
             setMetrics({
                 today: totalToday,
                 tomorrow: totalTomorrow,
                 week: totalWeek,
-                potentialRevenue,
-                noContact: formattedClients.length
+                potentialRevenue: potentialRevenue,
+                noContact: formattedClients.length // placeholder for clients without contacted status
             })
 
             setClients(formattedClients)
-            setAllClients(allFormatted)
 
         } catch (error) {
             console.error("Error fetching birthdays:", error)
@@ -170,55 +182,40 @@ export default function BirthdaysPage() {
         }
     }
 
-    const filteredClients = clients.filter(c =>
-        c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        c.phone.includes(searchQuery)
-    )
-
-    const upcomingClients = allClients.filter(c => !filteredClients.find(f => f.id === c.id)).slice(0, 4)
+    // Re-fetch when search changes simply via a local filter (for immediate feedback) or trigger refetch
+    // We already passed searchQuery to fetchBirthdays, but since it's an API call, it's better to filter locally
+    const filteredClients = clients.filter(c => c.name.toLowerCase().includes(searchQuery.toLowerCase()) || c.phone.includes(searchQuery))
 
     return (
-        <div className="flex flex-col h-full">
-            {/* ── Page Header ── */}
-            <Header
-                filter={filter}
-                onFilterChange={setFilter}
+        <div className="flex flex-col gap-6 max-w-7xl mx-auto pb-20 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <Header 
+                filter={filter} 
+                onFilterChange={setFilter} 
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
             />
 
             {loading ? (
-                <div className="flex flex-col items-center justify-center flex-1 py-24 text-text-secondary">
-                    <div className="w-8 h-8 border-4 border-border-color border-t-emerald-500 rounded-full animate-spin mb-3" />
-                    <p className="text-xs font-semibold text-text-secondary">Calculando insights de CRM...</p>
+                <div className="text-center py-12 text-zinc-500">
+                    Calculando insights...
                 </div>
             ) : (
-                <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 min-h-0 divide-x divide-border-color">
-                    {/* ── Main Column ── */}
-                    <div className="lg:col-span-8 overflow-y-auto">
-                        <div className="p-6 space-y-8">
-                            {/* Today's Birthdays */}
+                <>
+                    {/* Dashboard Insights */}
+                    <InsightCards metrics={metrics} />
+
+                    {/* Smart List & Customer Cards & Sidebar */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-2">
+                        <div className="lg:col-span-2">
                             <ClientList clients={filteredClients} />
-
-                            {/* Upcoming 7 Days */}
-                            <UpcomingBirthdays clients={upcomingClients} weekCount={metrics.week} />
-
-                            {/* Opportunities Grid */}
-                            <OpportunitiesGrid
-                                weekCount={metrics.week}
-                                potentialRevenue={metrics.potentialRevenue}
-                            />
                         </div>
-                    </div>
-
-                    {/* ── Sidebar ── */}
-                    <div className="lg:col-span-4 overflow-y-auto">
-                        <div className="p-6 space-y-4">
+                        
+                        <div className="flex flex-col gap-6">
                             <GamificationPanel />
                             <AutomationTimeline />
                         </div>
                     </div>
-                </div>
+                </>
             )}
         </div>
     )

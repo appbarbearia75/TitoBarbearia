@@ -51,87 +51,52 @@
 }
 
 .light {
-  /* =====================================================
-     LIGHT MODE — SaaS Premium Design System
-     Dark Mode NUNCA deve ser alterado aqui.
-  ====================================================== */
-
-  /* --- Backgrounds --- */
-  --bg-page: #F5F6F8;
-  --bg-card: #FAFAFA;
-  --bg-card-hover: #F3F4F6;
-  --bg-input: #FFFFFF;
+  /* LIGHT MODE */
+  --bg-page: #F8FAFC;
+  --bg-card: #FFFFFF;
+  --bg-sidebar: #FFFFFF;
+  --bg-input: #F1F5F9;
   --bg-hover: rgba(0, 0, 0, 0.04);
 
-  /* --- Textos --- */
-  --text-primary: #18181B;
-  --text-secondary: #52525B;
-  --text-muted: #71717A;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
 
-  /* --- Borders --- */
-  --border-color: #E4E4E7;
-  --border-light: #F1F5F9;
-  --input-border: #D4D4D8;
-  --input-focus: #2563EB;
+  --border-color: #E5E7EB;
 
-  /* --- Sidebar Escuro (contraste premium) --- */
-  --bg-sidebar: #111111;
-  --sidebar-hover: #1C1C1F;
-  --sidebar-border: #262626;
-  --sidebar-text: #A1A1AA;
-  --sidebar-text-active: #FFFFFF;
-  --sidebar-active-bg: #1C1C1F;
-  --sidebar-active-indicator: #C9A227;
+  --accent-primary: #D4AF37;
+  --accent-hover: #B49020;
 
-  /* --- Primary Action — SaaS Blue --- */
-  --primary-action: #2563EB;
-  --primary-action-hover: #1D4ED8;
-  --primary-action-light: #DBEAFE;
-
-  /* --- Accent Gold — Apenas métricas/VIP/revenue --- */
-  --accent-primary: #C9A227;
-  --accent-hover: #B8921E;
-
-  /* --- Status Colors --- */
-  --success-color: #16A34A;
-  --success-bg: #DCFCE7;
-  --warning-color: #F59E0B;
-  --warning-bg: #FEF3C7;
+  --success-color: #059669;
+  --warning-color: #D97706;
   --danger-color: #DC2626;
-  --danger-bg: #FEE2E2;
-  --info-color: #2563EB;
-  --info-bg: #DBEAFE;
 
-  /* --- Tables --- */
-  --table-header-bg: #F1F5F9;
-  --table-row-hover: #F8FAFC;
-  --table-border: #E4E4E7;
+  --table-row-hover: rgba(0, 0, 0, 0.02);
 
-  /* --- Charts --- */
-  --chart-grid: #E4E4E7;
-  --chart-axis: #71717A;
-  --chart-bar: #2563EB;
-  --chart-line: #C9A227;
-  --chart-highlight: #C9A227;
-  --chart-secondary: #10B981;
-  --chart-tooltip-bg: #18181B;
+  /* Charts */
+  --chart-grid: #E5E7EB;
+  --chart-axis: #64748B;
+  --chart-bar: #C89A2B;
+  --chart-line: #C89A2B;
+  --chart-highlight: #F4C542;
+  --chart-tooltip-bg: #111827;
   --chart-tooltip-text: #FFFFFF;
-  --chart-cursor-bg: rgba(37, 99, 235, 0.06);
+  --chart-cursor-bg: rgba(0, 0, 0, 0.06);
 
-  /* --- Shadcn Legacy (mantidos para compatibilidade) --- */
-  --background: 220 14% 96%;
-  --foreground: 240 6% 10%;
-  --primary: 221 83% 53%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 240 5% 96%;
-  --secondary-foreground: 240 6% 10%;
-  --muted: 240 5% 96%;
-  --muted-foreground: 240 4% 46%;
-  --card: 0 0% 98%;
-  --card-foreground: 240 6% 10%;
-  --border: 240 6% 90%;
-  --input: 240 6% 90%;
-  --ring: 221 83% 53%;
+  /* Legacy Shadcn */
+  --background: 210 40% 98%;
+  --foreground: 222.2 84% 4.9%;
+  --primary: 43 74% 49%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 43 74% 49%;
 }
 
 @theme {
@@ -139,56 +104,32 @@
   --color-bg-page: var(--bg-page);
   --color-bg-primary: var(--bg-page); /* Legacy pra não quebrar onde ja mexemos */
   --color-bg-card: var(--bg-card);
-  --color-bg-card-hover: var(--bg-card-hover);
   --color-bg-sidebar: var(--bg-sidebar);
   --color-bg-input: var(--bg-input);
   --color-bg-hover: var(--bg-hover);
   --color-hover-bg: var(--bg-hover); /* Legacy duplo */
-
-  /* Sidebar tokens (usados no layout.tsx) */
-  --color-sidebar-hover: var(--sidebar-hover);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-text: var(--sidebar-text);
-  --color-sidebar-text-active: var(--sidebar-text-active);
-  --color-sidebar-active-bg: var(--sidebar-active-bg);
-  --color-sidebar-active-indicator: var(--sidebar-active-indicator);
 
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
   --color-text-muted: var(--text-muted);
 
   --color-border-color: var(--border-color);
-  --color-border-light: var(--border-light);
-
+  
   --color-accent-primary: var(--accent-primary);
   --color-accent-color: var(--accent-primary); /* Legacy duplo */
   --color-accent-hover: var(--accent-hover);
 
-  /* Primary action SaaS Blue */
-  --color-primary-action: var(--primary-action);
-  --color-primary-action-hover: var(--primary-action-hover);
-  --color-primary-action-light: var(--primary-action-light);
-
   --color-success-color: var(--success-color);
-  --color-success-bg: var(--success-bg);
   --color-warning-color: var(--warning-color);
-  --color-warning-bg: var(--warning-bg);
   --color-danger-color: var(--danger-color);
-  --color-danger-bg: var(--danger-bg);
-  --color-info-color: var(--info-color);
-  --color-info-bg: var(--info-bg);
 
-  /* Tables */
-  --color-table-header-bg: var(--table-header-bg);
   --color-table-row-hover: var(--table-row-hover);
-  --color-table-border: var(--table-border);
 
   --color-chart-grid: var(--chart-grid);
   --color-chart-axis: var(--chart-axis);
   --color-chart-line: var(--chart-line);
   --color-chart-bar: var(--chart-bar);
   --color-chart-highlight: var(--chart-highlight);
-  --color-chart-secondary: var(--chart-secondary);
   --color-chart-tooltip-bg: var(--chart-tooltip-bg);
   --color-chart-tooltip-text: var(--chart-tooltip-text);
   --color-chart-cursor-bg: var(--chart-cursor-bg);

@@ -363,8 +363,8 @@ export default function ClientsPage() {
                 </div>
 
                 <div className="flex bg-bg-card p-1 rounded-lg border border-border-color w-fit shadow-sm">
-                    <button onClick={() => setActiveTab('clients')} className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${activeTab === 'clients' ? 'bg-primary-action text-white shadow-sm' : 'text-text-secondary hover:text-text-primary'}`}>Base de Clientes</button>
-                    <button onClick={() => setActiveTab('recurring')} className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${activeTab === 'recurring' ? 'bg-primary-action text-white shadow-sm' : 'text-text-secondary hover:text-text-primary'}`}>Horários Fixos</button>
+                    <button onClick={() => setActiveTab('clients')} className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${activeTab === 'clients' ? 'bg-bg-sidebar text-text-primary shadow-sm' : 'text-text-secondary hover:text-text-primary'}`}>Base de Clientes</button>
+                    <button onClick={() => setActiveTab('recurring')} className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${activeTab === 'recurring' ? 'bg-bg-sidebar text-text-primary shadow-sm' : 'text-text-secondary hover:text-text-primary'}`}>Horários Fixos</button>
                 </div>
             </div>
 
@@ -436,7 +436,7 @@ export default function ClientsPage() {
                     <Card className="bg-transparent border-none shadow-none mt-2">
                         <div className="overflow-x-auto bg-transparent md:bg-bg-card md:rounded-xl border-none md:border border-border-color md:ring-1 md:ring-border-color">
                             <table className="w-full text-sm text-left block md:table">
-                                <thead className="bg-table-header-bg text-text-secondary uppercase text-[10px] font-bold tracking-widest border-b border-border-color hidden md:table-header-group">
+                                <thead className="bg-bg-sidebar text-text-secondary uppercase text-[10px] font-bold tracking-widest border-b border-border-color hidden md:table-header-group">
                                     <tr>
                                         <th className="px-6 py-4">
                                             <div className="flex items-center gap-3">
@@ -573,7 +573,7 @@ export default function ClientsPage() {
 
             {/* Modals de Listas (HOT e RISK) */}
             <Dialog open={showHotModal} onOpenChange={setShowHotModal}>
-                <DialogContent className="bg-bg-card border-orange-500/20 text-text-primary shadow-2xl sm:max-w-md">
+                <DialogContent className="bg-bg-sidebar border-orange-500/20 text-text-primary shadow-2xl sm:max-w-md">
                     <DialogHeader>
                         <DialogTitle className="flex items-center gap-2 text-xl text-orange-500"><Flame className="w-5 h-5"/> Clientes Quentes</DialogTitle>
                         <DialogDescription className="text-text-secondary">Visitantes super frequentes prontos para tornarem-se assinantes do plano VIP.</DialogDescription>
@@ -593,7 +593,7 @@ export default function ClientsPage() {
             </Dialog>
 
             <Dialog open={showRiskModal} onOpenChange={setShowRiskModal}>
-                <DialogContent className="bg-bg-card border-red-500/20 text-text-primary shadow-2xl sm:max-w-md">
+                <DialogContent className="bg-bg-sidebar border-red-500/20 text-text-primary shadow-2xl sm:max-w-md">
                     <DialogHeader>
                         <DialogTitle className="flex items-center gap-2 text-xl text-red-500"><AlertTriangle className="w-5 h-5"/> Clientes em Risco (Churn)</DialogTitle>
                         <DialogDescription className="text-text-secondary">Clientes que visitaram mais de uma vez, mas não retornam há mais de 45 dias.</DialogDescription>
@@ -614,7 +614,7 @@ export default function ClientsPage() {
 
             {/* Default Add/Edit Modals Here... */}
             <Dialog open={isAddClientModalOpen} onOpenChange={setIsAddClientModalOpen}>
-                <DialogContent className="bg-bg-card border-border-color text-text-primary sm:max-w-[400px]">
+                <DialogContent className="bg-bg-sidebar border-border-color text-text-primary sm:max-w-[400px]">
                     <DialogHeader><DialogTitle>Cadastrar Cliente</DialogTitle></DialogHeader>
                     <div className="space-y-4 py-4">
                         <div className="space-y-2"><Label>Nome</Label><Input value={addingClient.name} onChange={e => setAddingClient(prev => ({ ...prev, name: e.target.value }))} className="bg-bg-card border-border-color text-text-primary"/></div>
@@ -625,7 +625,7 @@ export default function ClientsPage() {
             </Dialog>
 
             <Dialog open={isEditClientModalOpen} onOpenChange={setIsEditClientModalOpen}>
-                <DialogContent className="bg-bg-card border-border-color text-text-primary sm:max-w-[400px]">
+                <DialogContent className="bg-bg-sidebar border-border-color text-text-primary sm:max-w-[400px]">
                     <DialogHeader><DialogTitle>Editar Cliente</DialogTitle></DialogHeader>
                     {editingClient && (
                         <div className="space-y-4 py-4">

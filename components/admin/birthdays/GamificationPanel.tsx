@@ -1,55 +1,39 @@
 "use client"
 
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import { Trophy, Target, Play } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Target, Zap } from "lucide-react"
 
 export function GamificationPanel() {
-    const progress = 50 // 5 of 10
-    const current = 5
-    const goal = 10
-
     return (
-        <Card className="bg-bg-card border-border-color rounded-xl overflow-hidden">
-            {/* Header Strip */}
-            <div className="px-5 py-4 border-b border-border-color">
-                <div className="flex items-center gap-1.5 text-emerald-500 mb-0.5">
-                    <Zap className="w-3.5 h-3.5 fill-emerald-500" />
-                    <span className="text-[10px] font-black uppercase tracking-widest">Inteligência CRM</span>
-                </div>
-                <h3 className="text-sm font-bold text-text-primary flex items-center gap-2">
-                    💡 Meta de Conversão
-                </h3>
+        <Card className="bg-gradient-to-br from-bg-card via-bg-card to-emerald-900/10 border-border-color shadow-lg h-full relative overflow-hidden">
+            <div className="absolute top-0 right-0 p-6 opacity-5 pointer-events-none">
+                <Trophy className="w-32 h-32 text-emerald-500" />
             </div>
-
-            <CardContent className="p-5">
-                {/* Progress Numbers */}
-                <div className="flex justify-between items-center mb-2">
-                    <div>
-                        <span className="text-3xl font-black text-text-primary tracking-tight">{current}</span>
-                        <span className="text-sm font-bold text-text-muted ml-1">/ {goal}</span>
-                    </div>
-                    <span className="text-xs font-black text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-md border border-emerald-500/20">
-                        {progress}%
-                    </span>
+            <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-lg text-emerald-500 relative z-10">
+                    <Target className="w-5 h-5" />
+                    Meta de Conversão (Novembro)
+                </CardTitle>
+            </CardHeader>
+            <CardContent className="relative z-10">
+                <div className="flex justify-between items-end mb-2">
+                    <div className="text-3xl font-bold text-text-primary">5 <span className="text-sm font-normal text-text-secondary">/ 10 resgates</span></div>
+                    <div className="text-sm font-bold text-emerald-500">50%</div>
                 </div>
-                <p className="text-[10px] text-text-muted font-medium mb-3 uppercase tracking-wider">Clientes recuperados este mês</p>
-
-                {/* Progress Bar */}
-                <div className="h-2 bg-bg-app border border-border-color rounded-full overflow-hidden">
-                    <div
-                        className="h-full bg-emerald-500 rounded-full transition-all duration-700"
-                        style={{ width: `${progress}%` }}
-                    />
+                
+                {/* ProgressBar Dummy */}
+                <div className="h-2 bg-hover-bg border border-border-color/50 rounded-full w-full overflow-hidden">
+                    <div className="h-full bg-emerald-500" style={{ width: '50%' }}></div>
                 </div>
-
+                
                 <p className="text-xs text-text-secondary mt-4 leading-relaxed">
-                    Faltam apenas <span className="font-bold text-text-primary">{goal - current} clientes</span> para atingir sua meta mensal de recuperação.
+                    Transforme aniversários em faturamento. Faltam apenas 5 clientes para bater a meta de recuperação do mês.
                 </p>
 
-                <Button className="w-full mt-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs h-9 rounded-lg flex items-center gap-2">
-                    <Target className="w-3.5 h-3.5" />
-                    Iniciar disparos de hoje
+                <Button className="w-full mt-6 bg-emerald-600 hover:bg-emerald-500 text-white font-bold">
+                    <Play className="w-4 h-4 mr-2" />
+                    Iniciar Disparos de Hoje
                 </Button>
             </CardContent>
         </Card>

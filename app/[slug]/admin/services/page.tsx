@@ -61,29 +61,29 @@ function SortableRow({
         transition,
         zIndex: isDragging ? 10 : 1,
         position: isDragging ? 'relative' as 'relative' : undefined,
-        backgroundColor: isDragging ? 'var(--bg-hover)' : undefined
+        backgroundColor: isDragging ? '#27272a' : undefined // zinc-800
     }
 
     return (
         <TableRow
             ref={setNodeRef}
             style={style}
-            className="border-border-color hover:bg-table-row-hover group"
+            className="border-zinc-800 hover:bg-zinc-800/50 group"
         >
             <TableCell className="w-[40px] px-2 sm:px-4">
-                <div {...attributes} {...listeners} className="cursor-grab hover:text-text-primary text-text-muted flex items-center justify-center">
+                <div {...attributes} {...listeners} className="cursor-grab hover:text-white text-zinc-600 flex items-center justify-center">
                     <GripVertical className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
             </TableCell>
             <TableCell className="px-2 sm:px-4 max-w-[140px] sm:max-w-none">
                 <div className="font-bold text-sm sm:text-base leading-tight truncate">{service.title}</div>
                 {service.description && (
-                    <div className="text-[10px] sm:text-xs text-text-muted truncate mt-0.5">{service.description}</div>
+                    <div className="text-[10px] sm:text-xs text-zinc-500 truncate mt-0.5">{service.description}</div>
                 )}
             </TableCell>
             <TableCell className="px-2 sm:px-4 w-[80px] sm:w-auto">
                 <div className="text-xs sm:text-sm font-bold whitespace-nowrap">R$ {Number(service.price).toFixed(2)}</div>
-                <div className="text-[10px] text-text-muted sm:hidden whitespace-nowrap mt-0.5">{service.duration}</div>
+                <div className="text-[10px] text-zinc-500 sm:hidden whitespace-nowrap mt-0.5">{service.duration}</div>
             </TableCell>
             <TableCell className="hidden sm:table-cell px-2 sm:px-4 whitespace-nowrap text-sm">
                 {service.duration}
@@ -93,7 +93,7 @@ function SortableRow({
                     <Button
                         size="icon"
                         variant="ghost"
-                        className="h-8 w-8 text-text-muted hover:text-text-primary opacity-100 sm:opacity-50 group-hover:opacity-100 transition-opacity"
+                        className="h-8 w-8 text-zinc-400 hover:text-white opacity-100 sm:opacity-50 group-hover:opacity-100 transition-opacity"
                         onClick={() => onEdit(service)}
                     >
                         <Pencil className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -193,7 +193,7 @@ function EditServiceModal({
 
     return (
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
-            <DialogContent className="bg-bg-card border-border-color text-text-primary shadow-xl sm:max-w-[600px] overflow-hidden">
+            <DialogContent className="bg-[#09090b] border-[#DBC278]/20 text-white shadow-[0_0_50px_rgba(219,194,120,0.15)] sm:max-w-[600px] overflow-hidden">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[150%] h-32 bg-[#DBC278]/10 blur-[50px] pointer-events-none" />
 
                 <DialogHeader className="relative z-10">
@@ -204,52 +204,52 @@ function EditServiceModal({
 
                 <div className="relative z-10 grid gap-6 py-4">
                     <div className="space-y-2">
-                        <Label className="text-text-secondary">Nome do Serviço</Label>
+                        <Label className="text-zinc-300">Nome do Serviço</Label>
                         <Input
                             placeholder="ex: Corte Degradê"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            className="bg-bg-input border-border-color focus-visible:ring-accent-primary/50"
+                            className="bg-[#1c1c1c] border-white/10 focus-visible:ring-[#DBC278]/50"
                         />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <Label className="text-text-secondary">Preço</Label>
+                            <Label className="text-zinc-300">Preço</Label>
                             <div className="relative">
-                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted font-medium">R$</span>
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 font-medium">R$</span>
                                 <Input
                                     placeholder="0,00"
                                     value={price.replace("R$ ", "")}
                                     onChange={(e) => setPrice(formatCurrencyInternal(e.target.value))}
-                                    className="bg-bg-input border-border-color focus-visible:ring-accent-primary/50 pl-9 font-bold text-accent-primary"
+                                    className="bg-[#1c1c1c] border-white/10 focus-visible:ring-[#DBC278]/50 pl-9 font-bold text-[#DBC278]"
                                 />
                             </div>
                         </div>
                         <div className="space-y-2">
-                            <Label className="text-text-secondary">Duração (HH:mm)</Label>
+                            <Label className="text-zinc-300">Duração (HH:mm)</Label>
                             <Input
                                 placeholder="00:30"
                                 value={duration}
                                 onChange={(e) => setDuration(formatDurationMaskInternal(e.target.value))}
-                                className="bg-bg-input border-border-color focus-visible:ring-accent-primary/50"
+                                className="bg-[#1c1c1c] border-white/10 focus-visible:ring-[#DBC278]/50"
                             />
                         </div>
                     </div>
 
                     <div className="space-y-2">
-                        <Label className="text-text-secondary">Descrição (opcional)</Label>
+                        <Label className="text-zinc-300">Descrição (opcional)</Label>
                         <Input
                             placeholder="ex: Acabamento detalhado..."
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            className="bg-bg-input border-border-color focus-visible:ring-accent-primary/50"
+                            className="bg-[#1c1c1c] border-white/10 focus-visible:ring-[#DBC278]/50"
                         />
                     </div>
                 </div>
 
-                <DialogFooter className="relative z-10 border-t border-border-color pt-4">
-                    <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-text-secondary hover:text-text-primary hover:bg-hover-bg">
+                <DialogFooter className="relative z-10 border-t border-white/5 pt-4">
+                    <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-zinc-400 hover:text-white hover:bg-white/5">
                         Cancelar
                     </Button>
                     <Button onClick={handleSave} disabled={loading} className="bg-[#DBC278] hover:bg-[#c9b06b] text-black font-bold shadow-[0_0_15px_rgba(219,194,120,0.3)] transition-all">
@@ -448,7 +448,7 @@ export default function ServicesPage() {
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="text-3xl font-bold">Serviços</h1>
-                    <p className="text-text-secondary">Arraste para reordenar os serviços.</p>
+                    <p className="text-zinc-400">Arraste para reordenar os serviços.</p>
                 </div>
                 <div className="flex gap-2">
                     {hasUnsavedOrder && (
@@ -465,7 +465,7 @@ export default function ServicesPage() {
             </div>
 
             <Dialog open={isCreating} onOpenChange={setIsCreating}>
-                <DialogContent className="bg-bg-card border-border-color text-text-primary shadow-xl sm:max-w-[600px] overflow-hidden">
+                <DialogContent className="bg-[#09090b] border-[#DBC278]/20 text-white shadow-[0_0_50px_rgba(219,194,120,0.15)] sm:max-w-[600px] overflow-hidden">
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[150%] h-32 bg-[#DBC278]/10 blur-[50px] pointer-events-none" />
 
                     <DialogHeader className="relative z-10">
@@ -476,20 +476,20 @@ export default function ServicesPage() {
 
                     <div className="relative z-10 grid gap-6 py-4">
                         <div className="space-y-2">
-                            <Label className="text-text-secondary">Nome do Serviço</Label>
+                            <Label className="text-zinc-300">Nome do Serviço</Label>
                             <Input
                                 placeholder="ex: Corte Degradê"
                                 value={newService.title}
                                 onChange={(e) => setNewService(prev => ({ ...prev, title: e.target.value }))}
-                                className="bg-bg-input border-border-color focus-visible:ring-accent-primary/50"
+                                className="bg-[#1c1c1c] border-white/10 focus-visible:ring-[#DBC278]/50"
                             />
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label className="text-text-secondary">Preço</Label>
+                                <Label className="text-zinc-300">Preço</Label>
                                 <div className="relative">
-                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted font-medium">R$</span>
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 font-medium">R$</span>
                                     <Input
                                         placeholder="0,00"
                                         value={newService.price.replace("R$ ", "")}
@@ -497,12 +497,12 @@ export default function ServicesPage() {
                                             const formatted = formatCurrency(e.target.value)
                                             setNewService(prev => ({ ...prev, price: formatted }))
                                         }}
-                                        className="bg-bg-input border-border-color focus-visible:ring-accent-primary/50 pl-9 font-bold text-accent-primary"
+                                        className="bg-[#1c1c1c] border-white/10 focus-visible:ring-[#DBC278]/50 pl-9 font-bold text-[#DBC278]"
                                     />
                                 </div>
                             </div>
                             <div className="space-y-2">
-                                <Label className="text-text-secondary">Duração (HH:mm)</Label>
+                                <Label className="text-zinc-300">Duração (HH:mm)</Label>
                                 <Input
                                     placeholder="00:30"
                                     value={newService.duration}
@@ -511,27 +511,27 @@ export default function ServicesPage() {
                                         const formatted = formatDurationMask(e.target.value)
                                         setNewService(prev => ({ ...prev, duration: formatted }))
                                     }}
-                                    className="bg-bg-input border-border-color focus-visible:ring-accent-primary/50"
+                                    className="bg-[#1c1c1c] border-white/10 focus-visible:ring-[#DBC278]/50"
                                 />
                             </div>
                         </div>
 
                         <div className="space-y-2">
-                            <Label className="text-text-secondary">Descrição (opcional)</Label>
+                            <Label className="text-zinc-300">Descrição (opcional)</Label>
                             <Input
                                 placeholder="ex: Acabamento detalhado..."
                                 value={newService.description}
                                 onChange={(e) => setNewService(prev => ({ ...prev, description: e.target.value }))}
-                                className="bg-bg-input border-border-color focus-visible:ring-[#DBC278]/50"
+                                className="bg-[#1c1c1c] border-white/10 focus-visible:ring-[#DBC278]/50"
                             />
                         </div>
                     </div>
 
-                    <DialogFooter className="relative z-10 border-t border-border-color pt-4">
+                    <DialogFooter className="relative z-10 border-t border-white/5 pt-4">
                         <Button
                             variant="ghost"
                             onClick={() => setIsCreating(false)}
-                            className="text-text-secondary hover:text-text-primary hover:bg-hover-bg"
+                            className="text-zinc-400 hover:text-white hover:bg-white/5"
                         >
                             Cancelar
                         </Button>
@@ -546,7 +546,7 @@ export default function ServicesPage() {
                 </DialogContent>
             </Dialog>
 
-            <Card className="bg-bg-card border-border-color text-text-primary shadow-sm">
+            <Card className="bg-[#1c1c1c] border-white/5 text-white shadow-2xl shadow-black/50">
                 <CardContent className="p-0">
                     <DndContext
                         sensors={sensors}
@@ -555,12 +555,12 @@ export default function ServicesPage() {
                     >
                         <Table>
                             <TableHeader>
-                                <TableRow className="border-border-color hover:bg-table-row-hover">
+                                <TableRow className="border-zinc-800 hover:bg-zinc-800/50">
                                     <TableHead className="w-[40px] px-2 sm:px-4"></TableHead>
-                                    <TableHead className="text-text-secondary px-2 sm:px-4 text-xs sm:text-sm">Serviço</TableHead>
-                                    <TableHead className="text-text-secondary px-2 sm:px-4 text-xs sm:text-sm">Preço</TableHead>
-                                    <TableHead className="text-text-secondary px-2 sm:px-4 hidden sm:table-cell text-sm">Duração</TableHead>
-                                    <TableHead className="text-right text-text-secondary px-2 sm:px-4 text-xs sm:text-sm pr-4">Ações</TableHead>
+                                    <TableHead className="text-zinc-400 px-2 sm:px-4 text-xs sm:text-sm">Serviço</TableHead>
+                                    <TableHead className="text-zinc-400 px-2 sm:px-4 text-xs sm:text-sm">Preço</TableHead>
+                                    <TableHead className="text-zinc-400 px-2 sm:px-4 hidden sm:table-cell text-sm">Duração</TableHead>
+                                    <TableHead className="text-right text-zinc-400 px-2 sm:px-4 text-xs sm:text-sm pr-4">Ações</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -574,7 +574,7 @@ export default function ServicesPage() {
                                         </TableRow>
                                     ) : services.length === 0 ? (
                                         <TableRow>
-                                            <TableCell colSpan={5} className="text-center py-8 text-text-muted">Nenhum serviço cadastrado.</TableCell>
+                                            <TableCell colSpan={5} className="text-center py-8 text-zinc-500">Nenhum serviço cadastrado.</TableCell>
                                         </TableRow>
                                     ) : (
                                         services.map((service) => (

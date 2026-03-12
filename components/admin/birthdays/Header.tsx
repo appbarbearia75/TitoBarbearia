@@ -1,8 +1,8 @@
 "use client"
 
-import { MessageCircle, Search } from "lucide-react"
+import { Gift, Sparkles } from "lucide-react"
 import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+import { Search } from "lucide-react"
 
 interface HeaderProps {
     filter: string
@@ -12,61 +12,36 @@ interface HeaderProps {
 }
 
 export function Header({ filter, onFilterChange, searchQuery, onSearchChange }: HeaderProps) {
-    const filters = [
-        { id: 'hoje', label: 'Hoje' },
-        { id: 'semana', label: 'Próximos 7 dias' },
-        { id: 'mes', label: 'Mês' },
-    ]
-
     return (
-        <div className="px-6 py-5 border-b border-border-color bg-bg-card flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            {/* Left: Title */}
-            <div>
-                <h1 className="text-xl font-extrabold text-text-primary tracking-tight flex items-center gap-2">
-                    Aniversariantes 🎉
-                </h1>
-                <p className="text-xs text-text-secondary mt-0.5 leading-relaxed max-w-md">
-                    Use aniversários para fidelizar clientes, gerar retorno e aumentar o LTV.
-                </p>
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-accent-color/20 to-orange-500/10 flex items-center justify-center border border-accent-color/20 shadow-[0_0_30px_rgba(219,194,120,0.15)]">
+                    <Gift className="w-6 h-6 text-accent-color" />
+                </div>
+                <div>
+                    <h1 className="text-3xl font-bold bg-gradient-to-r from-text-primary via-text-primary to-text-secondary bg-clip-text text-transparent flex items-center gap-2">
+                        Aniversariantes
+                        <Sparkles className="w-5 h-5 text-orange-500 font-bold" />
+                    </h1>
+                    <p className="text-text-secondary text-sm mt-1">Identifique clientes que fazem aniversário e crie campanhas de fidelização.</p>
+                </div>
             </div>
 
-            {/* Right: Controls */}
-            <div className="flex flex-wrap items-center gap-3">
-                {/* Filter Pills */}
-                <div className="flex bg-bg-app border border-border-color rounded-lg p-0.5 gap-0.5">
-                    {filters.map(f => (
-                        <button
-                            key={f.id}
-                            onClick={() => onFilterChange(f.id)}
-                            className={`px-4 py-1.5 rounded-md text-xs font-semibold transition-all ${
-                                filter === f.id
-                                    ? 'bg-emerald-600 text-white shadow-sm'
-                                    : 'text-text-secondary hover:text-text-primary hover:bg-bg-card'
-                            }`}
-                        >
-                            {f.label}
-                        </button>
-                    ))}
-                </div>
-
-                {/* Search */}
-                <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-text-muted" />
-                    <Input
-                        placeholder="Buscar cliente..."
-                        className="pl-9 bg-bg-app border-border-color text-text-primary text-xs h-9 w-52 rounded-lg placeholder:text-text-muted"
-                        value={searchQuery}
-                        onChange={(e) => onSearchChange(e.target.value)}
-                    />
-                </div>
-
-                {/* Primary CTA */}
-                <Button
-                    className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs h-9 px-4 rounded-lg flex items-center gap-2 shrink-0"
-                >
-                    <MessageCircle className="w-3.5 h-3.5" />
-                    Disparar mensagens de hoje
-                </Button>
+            <div className="flex bg-bg-card p-1 rounded-lg border border-border-color w-fit">
+                <button onClick={() => onFilterChange('hoje')} className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${filter === 'hoje' ? 'bg-bg-sidebar text-text-primary shadow-sm' : 'text-text-secondary hover:text-text-primary'}`}>Hoje</button>
+                <button onClick={() => onFilterChange('amanha')} className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${filter === 'amanha' ? 'bg-bg-sidebar text-text-primary shadow-sm' : 'text-text-secondary hover:text-text-primary'}`}>Amanhã</button>
+                <button onClick={() => onFilterChange('semana')} className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${filter === 'semana' ? 'bg-bg-sidebar text-text-primary shadow-sm' : 'text-text-secondary hover:text-text-primary'}`}>Na Semana</button>
+                <button onClick={() => onFilterChange('mes')} className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${filter === 'mes' ? 'bg-bg-sidebar text-text-primary shadow-sm' : 'text-text-secondary hover:text-text-primary'}`}>No Mês</button>
+            </div>
+            
+            <div className="relative w-full md:w-64">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary" />
+                <Input
+                    placeholder="Buscar cliente..."
+                    className="pl-9 bg-bg-card border-border-color text-text-primary text-sm h-10 rounded-lg focus:border-accent-color/50 w-full placeholder:text-text-secondary"
+                    value={searchQuery}
+                    onChange={(e) => onSearchChange(e.target.value)}
+                />
             </div>
         </div>
     )
