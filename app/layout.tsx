@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -12,12 +12,22 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  themeColor: "#000000",
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.agendaeapp.com"),
   title: "Agendaê | Agendamento Online",
   description: "Agendamento rápido e fácil de barbearia.",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Agendaê",
+  },
   icons: {
     icon: "/simbol-logo.svg",
+    apple: "/simbol-logo.svg",
   },
   openGraph: {
     title: "Agendaê | Agendamento Online",

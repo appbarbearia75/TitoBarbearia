@@ -126,7 +126,7 @@ export default function TenantAdminLayout({
             // Verify if the current user owns the barbershop with this slug
             const { data: barbershop, error } = await supabase
                 .from("barbershops")
-                .select("id, name, is_active, pdv_enabled")
+                .select("id, name, is_active, pdv_enabled, subscription_status, subscription_end_date")
                 .eq("slug", slug)
                 .single()
 
@@ -141,6 +141,20 @@ export default function TenantAdminLayout({
             if (barbershop.id !== user.id) {
                 console.error("Access denied: Not the owner")
                 router.push("/")
+                return null
+            }
+
+            // Check if trial has expired
+            if (barbershop.subscription_status === 'trial' && barbershop.subscription_end_date) {
+                const endDate = new Date(barbershop.subscription_end_date)
+                if (new Date() > endDate) {
+                    console.log("Trial expired, redirecting to choose plan.")
+                    router.push(`/${slug}/planos`)
+                    return null
+                }
+            } else if (barbershop.subscription_status === 'expired') {
+                console.log("Subscription expired, redirecting to choose plan.")
+                router.push(`/${slug}/planos`)
                 return null
             }
 

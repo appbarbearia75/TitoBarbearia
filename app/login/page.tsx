@@ -121,9 +121,14 @@ export default function LoginPage() {
                     </Button>
                 </form>
 
-                <p className="text-center mt-8 text-xs text-zinc-600">
-                    &copy; 2024 Agendaê
-                </p>
+                <div className="mt-8 text-center space-y-4">
+                    <p className="text-sm text-zinc-400">
+                        Ainda não tem conta? <a href="/cadastro" className="text-[#DBC278] hover:underline font-medium">Teste grátis por 7 dias</a>
+                    </p>
+                    <p className="text-xs text-zinc-600">
+                        &copy; 2024 Agendaê
+                    </p>
+                </div>
             </div>
         </div>
     )

@@ -1,0 +1,78 @@
+﻿
+> temp-app@0.1.0 build
+> next build
+
+node.exe : [@serwist/next] WARNING: 
+You are using '@serwist/next' with 
+`next dev --turbopack`, but it 
+doesn't support Turbopack. Do one 
+of the following:
+No linha:1 caractere:1
++ & "C:\Program 
+Files\nodejs/node.exe" "C:\Program 
+Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSp 
+   ecified: ([@serwist/next]... th  
+  e following::String) [], Remote   
+ Exception
+    + FullyQualifiedErrorId : Nativ 
+   eCommandError
+ 
+
+- Set `disable` to 
+`process.env.NODE_ENV !== 
+"production"`.
+
+- Use webpack by running `next dev 
+--webpack` instead of `next dev 
+--turbopack`.
+
+- Migrate to '@serwist/turbopack' 
+which has experimental support for 
+Turbopack. See https://serwist.pages
+.dev/docs/next/turbo for more 
+information.
+
+- Migrate to configurator mode 
+which has support for Turbopack. 
+See https://serwist.pages.dev/docs/n
+ext/config for more information. 
+
+Follow https://github.com/serwist/se
+rwist/issues/54 for progress on 
+Serwist + Turbopack. You can also 
+suppress this warning by setting SER
+WIST_SUPPRESS_TURBOPACK_WARNING=1.
+
+Ôû▓ Next.js 16.1.6 (Turbopack)
+
+  Creating an optimized production build ...
+Ô£ô Compiled successfully in 8.3s
+  Running TypeScript ...
+Failed to compile.
+
+./app/sw.ts:11:21
+Type error: Cannot find name 
+'ServiceWorkerGlobalScope'. Did you 
+mean 'WorkerGlobalScope'?
+
+[0m [90m  9 |[39m }
+ [90m 10 |[39m
+[31m[1m>[22m[39m[90m 11 |[39m 
+declare [36mconst[39m 
+self[33m:[39m [33mServiceWorkerGl
+obalScope[39m[33m;[39m
+ [90m    |[39m                    
+ [31m[1m^[22m[39m
+ [90m 12 |[39m
+ [90m 13 |[39m [36mconst[39m 
+serwist [33m=[39m [36mnew[39m 
+[33mSerwist[39m({
+ [90m 14 |[39m   
+precacheEntries[33m:[39m self[33m
+.[39m__SW_MANIFEST[33m,[39m[0m
+Next.js build worker exited with 
+code: 1 and signal: null
+
