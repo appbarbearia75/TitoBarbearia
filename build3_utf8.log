@@ -1,0 +1,86 @@
+﻿
+> temp-app@0.1.0 build
+> next build
+
+node.exe : [@serwist/next] WARNING: You 
+are using '@serwist/next' with `next 
+dev --turbopack`, but it doesn't 
+support Turbopack. Do one of the 
+following:
+No linha:1 caractere:1
++ & "C:\Program Files\nodejs/node.exe" 
+"C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecif 
+   ied: ([@serwist/next]... the follow  
+  ing::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCom 
+   mandError
+ 
+
+- Set `disable` to 
+`process.env.NODE_ENV !== "production"`.
+
+- Use webpack by running `next dev 
+--webpack` instead of `next dev 
+--turbopack`.
+
+- Migrate to '@serwist/turbopack' which 
+has experimental support for Turbopack. 
+See https://serwist.pages.dev/docs/next/
+turbo for more information.
+
+- Migrate to configurator mode which 
+has support for Turbopack. See https://s
+erwist.pages.dev/docs/next/config for 
+more information. 
+
+Follow https://github.com/serwist/serwis
+t/issues/54 for progress on Serwist + 
+Turbopack. You can also suppress this 
+warning by setting 
+SERWIST_SUPPRESS_TURBOPACK_WARNING=1.
+
+Ôû▓ Next.js 16.1.6 (Turbopack)
+- Environments: .env.local, .env
+
+  Creating an optimized production build ...
+Ô£ô Compiled successfully in 8.0s
+  Running TypeScript ...
+Failed to compile.
+
+./app/sw.ts:37:7
+Type error: No overload matches this 
+call.
+  Overload 1 of 2, '(title: string, 
+options?: NotificationOptions | 
+undefined): Promise<void>', gave the 
+following error.
+    Object literal may only specify 
+known properties, and 'vibrate' does 
+not exist in type 'NotificationOptions'.
+  Overload 2 of 2, '(title: string, 
+options?: NotificationOptions | 
+undefined): Promise<void>', gave the 
+following error.
+    Object literal may only specify 
+known properties, and 'vibrate' does 
+not exist in type 'NotificationOptions'.
+
+[0m [90m 35 |[39m       
+data[33m:[39m { url }[33m,[39m
+ [90m 36 |[39m       badge[33m:[39m 
+[32m'/simbol-logo.svg'[39m[33m,[39m
+[31m[1m>[22m[39m[90m 37 |[39m     
+  vibrate[33m:[39m 
+[[35m200[39m[33m,[39m 
+[35m100[39m[33m,[39m [35m200[39m]
+ [90m    |[39m       
+[31m[1m^[22m[39m
+ [90m 38 |[39m     })
+ [90m 39 |[39m   )[33m;[39m
+ [90m 40 |[39m })[33m;[39m[0m
+Next.js build worker exited with code: 
+1 and signal: null
+

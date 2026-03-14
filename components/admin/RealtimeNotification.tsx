@@ -39,6 +39,38 @@ export function RealtimeNotification({ barbershopId }: { barbershopId: string })
         }
     }, [barbershopId])
 
+    useEffect(() => {
+        if (!barbershopId) return;
+
+        const subscribeToPush = async () => {
+            if ('serviceWorker' in navigator && 'PushManager' in window) {
+                try {
+                    const registration = await navigator.serviceWorker.ready;
+                    const permission = await Notification.requestPermission();
+                    if (permission === 'granted') {
+                        const subscription = await registration.pushManager.subscribe({
+                            userVisibleOnly: true,
+                            applicationServerKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY
+                        });
+
+                        await fetch('/api/web-push/subscribe', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                subscription,
+                                userId: barbershopId
+                            })
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error subscribing provider to push notifications', error);
+                }
+            }
+        };
+
+        subscribeToPush();
+    }, [barbershopId]);
+
     const playNotificationSound = () => {
         try {
             const AudioContext = window.AudioContext || (window as any).webkitAudioContext;

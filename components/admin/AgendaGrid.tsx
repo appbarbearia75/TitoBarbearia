@@ -342,6 +342,24 @@ export function AgendaGrid() {
                 fetchData(false)
                 setActionBooking(null)
                 setIsFaturando(false)
+
+                if (newStatus === 'cancelled') {
+                    const b = bookings.find(b => b.id === id);
+                    if (b && b.customer_phone && barbershopSettings) {
+                        const dateObj = new Date(b.date + 'T12:00:00'); // Ensure it's in the correct timezone context for formatting
+                        fetch('/api/web-push/send', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                clientPhone: b.customer_phone,
+                                barbershopId: barbershopSettings.id,
+                                title: 'Agendamento Cancelado ❌',
+                                body: `Seu agendamento para ${format(dateObj, 'dd/MM/yyyy')} às ${b.time} foi cancelado.`,
+                                url: `/${slug}`
+                            })
+                        }).catch(console.error);
+                    }
+                }
             }
         } catch (error) {
             console.error("Error in updateStatus", error)

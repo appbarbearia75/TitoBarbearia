@@ -101,6 +101,39 @@ function ConfirmationContent() {
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
 
     useEffect(() => {
+        if (isSuccess && client && client.id !== 'mock-id') {
+            const subscribeToPush = async () => {
+                if ('serviceWorker' in navigator && 'PushManager' in window) {
+                    try {
+                        const registration = await navigator.serviceWorker.ready;
+                        const permission = await Notification.requestPermission();
+                        if (permission === 'granted') {
+                            const subscription = await registration.pushManager.subscribe({
+                                userVisibleOnly: true,
+                                applicationServerKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY
+                            });
+
+                            await fetch('/api/web-push/subscribe', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    subscription,
+                                    clientPhone: phone,
+                                    barbershopId: client.id,
+                                    clientName: name
+                                })
+                            });
+                        }
+                    } catch (error) {
+                        console.error('Error subscribing to push notifications', error);
+                    }
+                }
+            };
+            subscribeToPush();
+        }
+    }, [isSuccess, client, name, phone])
+
+    useEffect(() => {
         if (slug) {
             fetchData()
         }
@@ -419,8 +452,36 @@ function ConfirmationContent() {
                         body: JSON.stringify({ phone: client.phone, message: msgProfissional })
                     }).catch(console.error)
                 }
+
+                // --- WEB PUSH NOTIFICATIONS ---
+                // Notificar Provedor (Barbearia)
+                fetch('/api/web-push/send', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: client.id,
+                        title: 'Novo Agendamento! 📅',
+                        body: `${name} agendou para ${displayDate} às ${time}`,
+                        url: `/${client.slug}/admin/agenda`
+                    })
+                }).catch(console.error);
+
+                // Notificar Cliente
+                fetch('/api/web-push/send', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        clientPhone: phone,
+                        barbershopId: client.id,
+                        title: 'Agendamento Confirmado! 🎉',
+                        body: `Seu horário está marcado para ${displayDate} às ${time}. Serviço: ${serviceNames}`,
+                        url: `/${client.slug}/confirmacao`
+                    })
+                }).catch(console.error);
+                // ------------------------------
+
             } catch (zapErr) {
-                console.error("Erro ao notificar Z-API", zapErr)
+                console.error("Erro ao notificar Z-API e Web Push", zapErr)
             }
 
             saveUserData() // Save for next time

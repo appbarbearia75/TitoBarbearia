@@ -56,6 +56,17 @@ export function WaitlistForm({ barbershopId, date, themeColor, onSuccess }: Wait
             //     body: JSON.stringify({ phone: phone, message: msgCliente })
             // }).catch(console.error)
 
+            // WEB PUSH NOTIFICATION
+            fetch('/api/web-push/send', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    userId: barbershopId,
+                    title: 'Fila de Espera 🕒',
+                    body: `${name} (${phone}) entrou na fila para o dia ${displayDate}.`
+                })
+            }).catch(console.error);
+
             setSuccess(true)
             setTimeout(() => {
                 if (onSuccess) onSuccess()

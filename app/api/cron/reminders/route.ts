@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
+import { sendWebPush } from '@/lib/web-push'
 
 export const dynamic = 'force-dynamic' // Garante que a rota não seja cacheada pela Vercel
 
@@ -109,6 +110,55 @@ export async function GET(request: Request) {
             } else {
                 console.warn("[CRON] Z-API não configurada. Lembrete lido, mas não enviado.")
             }
+
+            // --- WEB PUSH ---
+            try {
+                // Notificar Cliente (se tiver app instalado/permitido push)
+                const { data: existingClient } = await supabase
+                    .from('clients')
+                    .select('id')
+                    .eq('barbershop_id', booking.barbershop_id)
+                    .eq('phone', booking.customer_phone)
+                    .single()
+
+                if (existingClient) {
+                    const { data: subs } = await supabase
+                        .from('push_subscriptions')
+                        .select('*')
+                        .eq('client_id', existingClient.id)
+
+                    if (subs && subs.length > 0) {
+                        const titleClient = `Lembrete de Agendamento ⏰`
+                        const bodyClient = `Seu horário na ${barbershop.name || 'barbearia'} é às ${booking.time}. Estamos te esperando!`
+                        const payloadClient = { title: titleClient, body: bodyClient, icon: '/ICON-PNG.png', url: '/' }
+                        
+                        for (const sub of subs) {
+                            const pushSub = { endpoint: sub.endpoint, keys: { p256dh: sub.p256dh, auth: sub.auth } }
+                            await sendWebPush(pushSub, payloadClient).catch(e => console.log('Erro ao enviar push para cliente', e))
+                        }
+                    }
+                }
+
+                // Notificar Barbeiro / Admin
+                const { data: adminSubs } = await supabase
+                    .from('push_subscriptions')
+                    .select('*')
+                    .eq('user_id', booking.barbershop_id)
+
+                if (adminSubs && adminSubs.length > 0) {
+                    const titleAdmin = `Lembrete de Agendamento ⏳`
+                    const bodyAdmin = `O cliente ${clientName} (${clientPhoneStr}) tem horário marcado para as ${booking.time}.`
+                    const payloadAdmin = { title: titleAdmin, body: bodyAdmin, icon: '/ICON-PNG.png', url: '/' }
+
+                    for (const sub of adminSubs) {
+                        const pushSub = { endpoint: sub.endpoint, keys: { p256dh: sub.p256dh, auth: sub.auth } }
+                        await sendWebPush(pushSub, payloadAdmin).catch(e => console.log('Erro ao enviar push para admin', e))
+                    }
+                }
+            } catch (wpErr) {
+                console.error("[CRON] Erro no Web Push:", wpErr)
+            }
+            // ----------------
         }
 
         return NextResponse.json({ success: true, sent: enviados, total: bookings.length })
