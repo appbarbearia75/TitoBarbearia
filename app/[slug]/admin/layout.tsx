@@ -89,17 +89,48 @@ export default function TenantAdminLayout({
 
                         if (shouldComplete) {
                             let commission_earned = 0
+                            const bPrice = parseFloat((b.services as any)?.price || '0')
+                            
                             if (b.barbers) {
                                 const cType = (b.barbers as any).commission_type || 'percentage'
                                 const cValue = parseFloat((b.barbers as any).commission_value) || 0
-                                const bPrice = parseFloat((b.services as any)?.price || '0')
                                 if (cType === 'percentage') {
                                     commission_earned = bPrice * (cValue / 100)
                                 } else if (cType === 'fixed') {
                                     commission_earned = cValue
                                 }
                             }
-                            await supabase.from('bookings').update({ status: 'completed', commission_earned }).eq('id', b.id)
+                            
+                            const updateData: any = { status: 'completed', commission_earned }
+                            
+                            if (!b.command_id && bPrice > 0) {
+                                const { data: cmd } = await supabase.from('commands').insert([{
+                                    barbershop_id: bId,
+                                    client_name: b.customer_name || 'Cliente (Auto)',
+                                    status: 'closed',
+                                    subtotal_amount: bPrice,
+                                    discount_amount: 0,
+                                    discount_type: 'fixed',
+                                    total_amount: bPrice,
+                                    payment_method: 'pix'
+                                }]).select('id').single()
+
+                                if (cmd) {
+                                    await supabase.from('command_items').insert([{
+                                        command_id: cmd.id,
+                                        item_type: 'service',
+                                        item_id: b.service_id,
+                                        item_name: (b.services as any)?.title || 'Serviço Auto',
+                                        unit_price: bPrice,
+                                        quantity: 1,
+                                        total_price: bPrice,
+                                        barber_id: b.barber_id || null
+                                    }])
+                                    updateData.command_id = cmd.id
+                                }
+                            }
+                            
+                            await supabase.from('bookings').update(updateData).eq('id', b.id)
                         }
                     }
                 }

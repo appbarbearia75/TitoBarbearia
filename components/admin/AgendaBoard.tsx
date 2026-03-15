@@ -204,23 +204,55 @@ export function AgendaBoard({ onUpdate }: { onUpdate?: () => void }) {
             }
 
             let commission_earned = 0
+            const updateData: any = { status: newStatus }
+            
             if (newStatus === 'completed') {
                 const b = bookings.find(b => b.id === id)
-                if (b && b.barbers) {
-                    const cType = b.barbers.commission_type || 'percentage'
-                    const cValue = parseFloat(b.barbers.commission_value) || 0
+                if (b) {
                     const bPrice = parseFloat(b.services?.price || '0')
-                    if (cType === 'percentage') {
-                        commission_earned = bPrice * (cValue / 100)
-                    } else if (cType === 'fixed') {
-                        commission_earned = cValue
+                    
+                    if (b.barbers) {
+                        const cType = b.barbers.commission_type || 'percentage'
+                        const cValue = parseFloat(b.barbers.commission_value) || 0
+                        if (cType === 'percentage') {
+                            commission_earned = bPrice * (cValue / 100)
+                        } else if (cType === 'fixed') {
+                            commission_earned = cValue
+                        }
+                    }
+                    updateData.commission_earned = commission_earned
+                    
+                    if (!b.command_id && bPrice > 0) {
+                        const { data: barbershop } = await supabase.from('barbershops').select('id').eq('slug', slug).single()
+                        
+                        if (barbershop) {
+                            const { data: cmd } = await supabase.from('commands').insert([{
+                                barbershop_id: barbershop.id,
+                                client_name: b.customer_name || 'Cliente',
+                                status: 'closed',
+                                subtotal_amount: bPrice,
+                                discount_amount: 0,
+                                discount_type: 'fixed',
+                                total_amount: bPrice,
+                                payment_method: 'pix'
+                            }]).select('id').single()
+
+                            if (cmd) {
+                                await supabase.from('command_items').insert([{
+                                    command_id: cmd.id,
+                                    item_type: 'service',
+                                    item_id: b.service_id,
+                                    item_name: b.services?.title || 'Serviço',
+                                    unit_price: bPrice,
+                                    quantity: 1,
+                                    total_price: bPrice,
+                                    barber_id: b.barber_id || null
+                                }])
+                                updateData.command_id = cmd.id
+                            }
+                        }
                     }
                 }
-            }
-
-            const updateData: any = { status: newStatus }
-            if (newStatus === 'completed') {
-                updateData.commission_earned = commission_earned
             }
 
             const { error } = await supabase
@@ -329,7 +361,11 @@ export function AgendaBoard({ onUpdate }: { onUpdate?: () => void }) {
                     bookings.map((booking) => (
                         <div
                             key={booking.id}
-                            className="bg-[#1c1c1c] rounded-[10px] border border-white/5 p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 hover:border-white/10 sm:hover:scale-[1.02] sm:hover:shadow-[0px_6px_12px_rgba(0,0,0,0.20)] transition-all duration-200 animate-in fade-in zoom-in-95"
+                            className={`rounded-[10px] p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 transition-all duration-200 animate-in fade-in zoom-in-95 ${
+                                booking.status === 'locked'
+                                    ? 'bg-red-950/30 border border-red-500/20 opacity-60 cursor-not-allowed'
+                                    : 'bg-[#1c1c1c] border border-white/5 hover:border-white/10 sm:hover:scale-[1.02] sm:hover:shadow-[0px_6px_12px_rgba(0,0,0,0.20)]'
+                            }`}
                         >
                             <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
                                 {/* Time */}

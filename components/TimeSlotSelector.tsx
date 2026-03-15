@@ -61,7 +61,53 @@ export function TimeSlotSelector({
                 })
             }
 
-            // 2. Fetch standard bookings
+            // 2. Fetch schedule_blocks
+            const { data: blocksData } = await supabase
+                .from('schedule_blocks')
+                .select('*')
+                .eq('barbershop_id', barbershopId)
+
+            if (blocksData && date) {
+                const targetDate = new Date(date + 'T00:00:00')
+                const targetDayOfWeek = targetDate.getDay()
+                const targetDayOfMonth = targetDate.getDate()
+
+                blocksData.forEach((block: any) => {
+                    let appliesToDay = false
+
+                    if (!block.is_recurring && block.date === date) {
+                        appliesToDay = true
+                    } else if (block.is_recurring) {
+                        if (block.recurrence_type === 'daily') appliesToDay = true
+                        if (block.recurrence_type === 'weekly' && block.recurrence_days?.includes(targetDayOfWeek)) appliesToDay = true
+                        if (block.recurrence_type === 'monthly' && block.date) {
+                            const blockDate = new Date(block.date + 'T00:00:00')
+                            if (blockDate.getDate() === targetDayOfMonth) appliesToDay = true
+                        }
+                    }
+
+                    // Also check professional_id filter if barberId is provided
+                    if (appliesToDay && block.professional_id && barberId && block.professional_id !== barberId) {
+                        appliesToDay = false
+                    }
+
+                    if (appliesToDay) {
+                        const startStr = block.start_time.slice(0, 5)
+                        const endStr = block.end_time.slice(0, 5)
+                        // Add all 15-min intervals between start and end
+                        let [h, m] = startStr.split(':').map(Number)
+                        const [endH, endM] = endStr.split(':').map(Number)
+                        while (h < endH || (h === endH && m < endM)) {
+                            const timeStr = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`
+                            blocked.add(timeStr)
+                            m += 15
+                            if (m >= 60) { h += 1; m -= 60 }
+                        }
+                    }
+                })
+            }
+
+            // 3. Fetch standard bookings
             let query = supabase
                 .from('bookings')
                 .select('time, services(duration)')

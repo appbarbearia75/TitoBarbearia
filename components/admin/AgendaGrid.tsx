@@ -456,9 +456,11 @@ export function AgendaGrid() {
 
     const handleToggleLock = async (barber_id: string, time: string, dayDate: Date = date, existingBooking?: any) => {
         if (existingBooking && existingBooking.id?.startsWith('block-')) {
-            const blockId = existingBooking.id.split('-')[1];
+            const blockId = existingBooking.id.substring(6, 42); // extract 36-char UUID after 'block-'
             if (confirm("Deseja remover este bloqueio?")) {
-                await supabase.from('schedule_blocks').delete().eq('id', blockId);
+                console.log('Deleting schedule block with ID:', blockId, 'from compound ID:', existingBooking.id);
+                const { error } = await supabase.from('schedule_blocks').delete().eq('id', blockId);
+                if (error) console.error('Error deleting schedule block:', error);
                 fetchData(false);
             }
             return;
@@ -984,10 +986,13 @@ function SlotCell({ barber, time, booking, isOffline, onClick, dayDate, onToggle
                         }
                     }}
                     className={`
-                        absolute inset-x-1 inset-y-0.5 rounded-[10px] px-2.5 shadow-[0px_2px_6px_rgba(0,0,0,0.15)] z-10 overflow-hidden flex flex-col transition-all duration-200 sm:hover:scale-[1.03] sm:hover:shadow-[0px_6px_12px_rgba(0,0,0,0.30)] active:scale-[0.98] border border-white/10 animate-in fade-in zoom-in-95 duration-200
+                        absolute inset-x-1 inset-y-0.5 rounded-[10px] px-2.5 z-10 overflow-hidden flex flex-col transition-all duration-200 border animate-in fade-in zoom-in-95 duration-200
+                        ${booking.status === 'locked'
+                            ? 'bg-red-950/40 border-red-500/30 text-[var(--text-muted)] cursor-pointer pointer-events-auto'
+                            : 'shadow-[0px_2px_6px_rgba(0,0,0,0.15)] sm:hover:scale-[1.03] sm:hover:shadow-[0px_6px_12px_rgba(0,0,0,0.30)] active:scale-[0.98] border-white/10'}
                         ${booking.status === 'completed' ? 'bg-[var(--bg-card)] text-[var(--text-muted)] border-[var(--border-color)]' :
-                            booking.status === 'locked' ? 'bg-[var(--bg-input)] border border-[var(--danger-color)]/20 text-[var(--text-muted)] cursor-pointer hover:bg-[var(--hover-bg)] pointer-events-auto' :
-                                booking.status === 'confirmed' ? 'bg-[var(--accent-primary)] text-black shadow-[var(--accent-primary)]/40 border-[var(--accent-primary)]' :
+                            booking.status === 'confirmed' ? 'bg-[var(--accent-primary)] text-black shadow-[var(--accent-primary)]/40 border-[var(--accent-primary)]' :
+                                booking.status === 'locked' ? '' :
                                     'bg-[#00b4d8] text-white shadow-[#00b4d8]/40 border-[#00b4d8]'}
                         py-3 sm:py-4 justify-between
                     `}
